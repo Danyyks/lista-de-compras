@@ -121,18 +121,12 @@
   box-shadow: 2px 2px 0px var(--accent);
 }
 
-/* ---- Controle de quantidade (visível no hover) ---- */
+/* ---- Controle de quantidade ---- */
 .quantityControl {
   display: flex;
   align-items: center;
   gap: 5px;
   flex-shrink: 0;
-  opacity: 0;
-  transition: opacity var(--transition);
-}
-
-.item:hover .quantityControl {
-  opacity: 1;
 }
 
 .qtyBtn {
@@ -182,7 +176,8 @@
   color: var(--accent);
   padding: 3px 8px;
   border-radius: var(--radius-sm);
-  border: 1px solid transparent;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
   transition: all var(--transition);
   min-width: 72px;
   text-align: right;
@@ -190,7 +185,7 @@
 }
 
 .priceBtn:hover {
-  border-color: var(--border-color);
+  border-color: var(--accent);
   background: var(--bg-tertiary);
   box-shadow: var(--shadow-sm);
 }
@@ -210,11 +205,12 @@
 }
 
 .addPrice {
-  color: var(--text-muted);
+  color: var(--accent);
   font-size: 0.7rem;
   font-family: var(--font-sans);
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
 }
 
 /* Edição inline de preço */

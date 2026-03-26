@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { CATEGORIES } from "../utils/categories";
-import { formatCurrency, parsePrice } from "../utils/formatCurrency";
+import { formatCurrency } from "../utils/formatCurrency";
 import styles from "./AddItemForm.module.css";
 
 export function AddItemForm({ onAddItem, getLastPrice }) {
@@ -8,7 +8,6 @@ export function AddItemForm({ onAddItem, getLastPrice }) {
   const [category, setCategory] = useState("outros");
   const [customCategory, setCustomCategory] = useState("");
   const [useCustomCategory, setUseCustomCategory] = useState(false);
-  const [priceInput, setPriceInput] = useState("");
   const [lastPrice, setLastPrice] = useState(null);
 
   useEffect(() => {
@@ -33,16 +32,11 @@ export function AddItemForm({ onAddItem, getLastPrice }) {
     onAddItem({
       name: trimmedName,
       category: resolvedCategory,
-      price: parsePrice(priceInput),
+      price: 0,
     });
 
     setName("");
-    setPriceInput("");
     setLastPrice(null);
-  }
-
-  function applyLastPrice() {
-    setPriceInput(String(lastPrice).replace(".", ","));
   }
 
   return (
@@ -65,73 +59,50 @@ export function AddItemForm({ onAddItem, getLastPrice }) {
             autoComplete="off"
           />
           {lastPrice !== null && (
-            <button
-              type="button"
-              className={styles.lastPriceHint}
-              onClick={applyLastPrice}
-              title="Clique para usar este preço"
-            >
+            <span className={styles.lastPriceHint}>
               Último preço: {formatCurrency(lastPrice)}
-            </button>
+            </span>
           )}
         </div>
       </div>
 
-      {/* Categoria + Preço na mesma linha */}
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label className={styles.fieldLabel}>Categoria</label>
-          <div className={styles.categoryGroup}>
-            {useCustomCategory ? (
-              <input
-                type="text"
-                placeholder="Personalizada..."
-                value={customCategory}
-                onChange={(e) => setCustomCategory(e.target.value)}
-                className={styles.input}
-              />
-            ) : (
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className={styles.select}
-              >
-                {CATEGORIES.map((cat) => (
-                  <option key={cat.key} value={cat.key}>
-                    {cat.label}
-                  </option>
-                ))}
-              </select>
-            )}
-            <button
-              type="button"
-              className={styles.toggleCustom}
-              onClick={() => setUseCustomCategory((prev) => !prev)}
-              title={
-                useCustomCategory
-                  ? "Usar lista de categorias"
-                  : "Digitar categoria personalizada"
-              }
-            >
-              {useCustomCategory ? "↩" : "+"}
-            </button>
-          </div>
-        </div>
-
-        <div className={styles.priceField}>
-          <label className={styles.fieldLabel}>Preço</label>
-          <div className={styles.priceGroup}>
-            <span className={styles.prefix}>R$</span>
+      {/* Categoria */}
+      <div className={styles.field}>
+        <label className={styles.fieldLabel}>Categoria</label>
+        <div className={styles.categoryGroup}>
+          {useCustomCategory ? (
             <input
-              type="number"
-              min="0"
-              step="0.01"
-              placeholder="0,00"
-              value={priceInput}
-              onChange={(e) => setPriceInput(e.target.value)}
-              className={styles.priceInput}
+              type="text"
+              placeholder="Personalizada..."
+              value={customCategory}
+              onChange={(e) => setCustomCategory(e.target.value)}
+              className={styles.input}
             />
-          </div>
+          ) : (
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className={styles.select}
+            >
+              {CATEGORIES.map((cat) => (
+                <option key={cat.key} value={cat.key}>
+                  {cat.label}
+                </option>
+              ))}
+            </select>
+          )}
+          <button
+            type="button"
+            className={styles.toggleCustom}
+            onClick={() => setUseCustomCategory((prev) => !prev)}
+            title={
+              useCustomCategory
+                ? "Usar lista de categorias"
+                : "Digitar categoria personalizada"
+            }
+          >
+            {useCustomCategory ? "↩" : "+"}
+          </button>
         </div>
       </div>
 

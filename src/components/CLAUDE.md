@@ -6,9 +6,10 @@ Props: `budget`, `onBudgetChange`, `darkMode`, `onToggleDarkMode`
 
 ## AddItemForm
 Props: `onAddItem(draft)`, `getLastPrice(name)`
-- Form controlado: nome, categoria (select ou custom), preço
-- Mostra hint "Último preço: R$ X" ao digitar nome já registrado
-- `onAddItem` recebe `{ name, category, price }`
+- Form controlado: nome, categoria (select ou custom)
+- Sem campo de preço — preço é definido diretamente na linha do item na lista
+- Mostra hint informativo "Último preço: R$ X" ao digitar nome já registrado
+- `onAddItem` recebe `{ name, category, price: 0 }`
 
 ## CategoryGroup
 Props: `category`, `items`, `onToggle`, `onDelete`, `onEdit`

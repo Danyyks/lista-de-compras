@@ -79,39 +79,28 @@ export default defineConfig({
 
         icons: [
           {
-            src: '/icons/icon-192.png',
+            src: '/lista-de-compras/icons/icon-192.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: '/icons/icon-192-maskable.png',
+            src: '/lista-de-compras/icons/icon-192-maskable.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'maskable',
           },
           {
-            src: '/icons/icon-512.png',
+            src: '/lista-de-compras/icons/icon-512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: '/icons/icon-512-maskable.png',
+            src: '/lista-de-compras/icons/icon-512-maskable.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
-          },
-        ],
-
-        // Screenshots para a tela de instalacao (opcional, melhora o Lighthouse)
-        screenshots: [
-          {
-            src: '/screenshots/mobile.png',
-            sizes: '390x844',
-            type: 'image/png',
-            form_factor: 'narrow',
-            label: 'Listinha no celular',
           },
         ],
       },

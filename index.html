@@ -2,14 +2,60 @@
 <html lang="pt-BR" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ============================================
+         PWA — META TAGS ESSENCIAIS
+         ============================================ -->
+
+    <!-- Viewport: evita zoom indesejado em inputs no iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Cor da barra do navegador (Android Chrome) e da status bar -->
+    <meta name="theme-color" content="#9b5de5" />
+
+    <!-- Descricao para SEO e tela de instalacao -->
+    <meta name="description" content="Sua lista de compras organizada por categorias, com controle de orcamento." />
+
+    <!-- ============================================
+         iOS (Safari nao le o manifest.json)
+         ============================================ -->
+
+    <!-- Habilita modo standalone no iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <!-- Estilo da status bar no iOS standalone:
+         default = barra cinza | black = preta | black-translucent = sobrepoe o conteudo -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Nome do app na tela inicial do iOS -->
+    <meta name="apple-mobile-web-app-title" content="Listinha" />
+
+    <!-- Icone para iOS (usado no "Adicionar a tela inicial") -->
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
+    <!-- Splash screen no iOS: cobre o fundo enquanto o app carrega -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- ============================================
+         FAVICON E MANIFEST
+         ============================================ -->
+    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+
+    <!-- O vite-plugin-pwa injeta o link do manifest e o registro do SW
+         automaticamente no build. No dev com devOptions.enabled=true,
+         o plugin tambem serve o manifest via /manifest.webmanifest. -->
+
+    <!-- ============================================
+         FONTES
+         ============================================ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
+
     <title>Listinha</title>
   </head>
   <body>

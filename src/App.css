@@ -1,0 +1,97 @@
+.app {
+  max-width: 430px;
+  margin: 0 auto;
+  padding: 0 16px 100px;
+  background: var(--bg-secondary);
+  min-height: 100vh;
+}
+
+.appContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Estado vazio da lista */
+.emptyState {
+  text-align: center;
+  padding: 56px 24px;
+  color: var(--text-muted);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.emptyState svg {
+  margin: 0 auto 16px;
+  display: block;
+  opacity: 0.3;
+}
+
+.emptyState p {
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+}
+
+/* Botão de limpar comprados */
+.clearBoughtBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: var(--bg-primary);
+  color: var(--color-danger);
+  border: 2px solid var(--color-danger);
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.clearBoughtBtn:hover {
+  background: var(--color-danger);
+  color: #ffffff;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Botão de nova lista / limpar tudo */
+.clearAllBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: var(--bg-primary);
+  color: var(--text-muted);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.clearAllBtn:hover {
+  background: var(--color-warning);
+  color: #ffffff;
+  border-color: var(--color-warning);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}

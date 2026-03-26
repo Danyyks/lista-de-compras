@@ -1,0 +1,164 @@
+/* ==================================
+   BUDGET SUMMARY — Retrô-Moderno
+   ================================== */
+
+.summary {
+  background: var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--accent);
+  box-shadow: var(--shadow-lg);
+}
+
+.summary.over {
+  animation: pulse-over-budget 2s ease infinite;
+}
+
+/* Ícone decorativo no canto direito */
+.decorIcon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
+
+.mainRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 72px;
+}
+
+.labelWhite {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-sans);
+  margin-bottom: 4px;
+}
+
+.valueWhite {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* Totais extras (quando há orçamento) */
+.extrasRow {
+  display: flex;
+  gap: 0;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.extraBlock {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 12px;
+}
+
+.extraBlock:first-child { padding-left: 0; }
+.extraBlock:last-child  { padding-right: 0; }
+
+.extraLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: var(--font-sans);
+}
+
+.extraValue {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  letter-spacing: -0.01em;
+}
+
+.extraValue.danger  { color: #ffaaaa; }
+.extraValue.warning { color: #ffe082; }
+.extraValue.success { color: #a5f3a5; }
+
+.extraDivider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+/* Barra de progresso */
+.progressWrapper {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.progressBar {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 300ms ease;
+}
+
+.fillSuccess { background: rgba(255, 255, 255, 0.9); }
+.fillWarning { background: #ffe082; }
+.fillDanger  { background: #ffaaaa; }
+
+.progressLabel {
+  font-size: 0.66rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+/* Rodapé: badge de itens + "Pronto para o caixa" */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.itemsBadge {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+  padding: 5px 12px;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.readyLabel {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-display);
+  font-style: italic;
+  letter-spacing: 0.02em;
+}

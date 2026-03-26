@@ -1,0 +1,262 @@
+/* ==============================
+   USUARIO PAGE — Retrô-Moderno
+   ============================== */
+
+.screen {
+  min-height: 100vh;
+  background: var(--bg-secondary);
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px 100px;
+}
+
+.content {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Título da página */
+.pageTitle {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  text-align: center;
+}
+
+/* ---- AVATAR ---- */
+.avatarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.avatarBtn {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 3px solid var(--accent);
+  background: var(--bg-tertiary);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow var(--transition);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  box-shadow: var(--shadow-lg);
+}
+
+.avatarBtn:hover {
+  box-shadow: 6px 6px 0px var(--accent);
+}
+
+.avatarBtn:hover .avatarOverlay {
+  opacity: 1;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatarPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  opacity: 0;
+  transition: opacity var(--transition);
+  border-radius: 50%;
+}
+
+.avatarEditBadge {
+  position: absolute;
+  bottom: 28px;
+  right: calc(50% - 55px - 4px);
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+  border: 2px solid var(--bg-secondary);
+}
+
+.avatarEditBadge:hover {
+  background: var(--accent-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.fileInput {
+  display: none;
+}
+
+.removePhoto {
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  transition: color var(--transition);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+
+.removePhoto:hover {
+  color: var(--color-danger);
+}
+
+/* ---- NOME ---- */
+.nameSection {
+  text-align: center;
+}
+
+.name {
+  font-size: 1.8rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+/* ---- APARÊNCIA ---- */
+.appearanceSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  border: 2px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+.appearanceTitle {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+}
+
+.themeCards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.themeCard {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: var(--font-sans);
+}
+
+.themeCard:hover:not(.themeCardActive) {
+  border-color: var(--accent);
+}
+
+.themeCardActive {
+  background: var(--bg-primary);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+
+.themeCardIcon {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.themeCardActive .themeCardIcon {
+  color: var(--accent);
+}
+
+.themeCardLabel {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.themeCardActive .themeCardLabel {
+  color: var(--accent);
+}
+
+/* ---- AGRADECIMENTO ---- */
+.thanks {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-align: center;
+  font-family: var(--font-sans);
+}
+
+.heart {
+  color: var(--accent);
+  margin-top: -8px;
+  opacity: 0.6;
+}
+
+/* ---- SAIR ---- */
+.signOut {
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-full);
+  background: transparent;
+  transition: all var(--transition);
+  width: 100%;
+  box-shadow: var(--shadow-sm);
+}
+
+.signOut:hover {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+  box-shadow: var(--shadow-md);
+}

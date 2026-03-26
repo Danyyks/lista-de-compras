@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/* ============================================
+   DESIGN SYSTEM — RETRÔ-MODERNO
+   Listinha App
+   ============================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* --- FONTES --- */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-sans:    'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono:    'Space Mono', 'Courier New', monospace;
+
+  /* --- CORES: LIGHT MODE (Retrô-Moderno quente) --- */
+  --bg-primary:     #faf8f5;
+  --bg-secondary:   #f5f2ed;
+  --bg-tertiary:    #ede8e0;
+  --text-primary:   #2a2a2a;
+  --text-secondary: #5a5550;
+  --text-muted:     #9a9590;
+  --border-color:   #d4cfc7;
+
+  /* Rosa/Vermelho retrô — cor principal */
+  --accent:         #e85d75;
+  --accent-hover:   #d14562;
+
+  /* Status */
+  --color-success:  #7fc8a9;
+  --color-danger:   #d64545;
+  --color-warning:  #ff9a56;
+  --color-info:     #9b87c4;
+
+  /* --- SOMBRAS RETRÔ (offset sólido) --- */
+  --shadow-sm:    2px 2px 0px rgba(42,42,42,0.12);
+  --shadow-md:    3px 3px 0px rgba(42,42,42,0.14);
+  --shadow-lg:    4px 4px 0px rgba(42,42,42,0.16);
+  --shadow-xl:    0 8px 32px rgba(42,42,42,0.12), 4px 4px 0px rgba(42,42,42,0.10);
+
+  /* --- BORDAS & RAIOS --- */
+  --radius:       10px;
+  --radius-sm:    6px;
+  --radius-lg:    16px;
+  --radius-full:  9999px;
+
+  /* --- TRANSIÇÃO --- */
+  --transition:   160ms ease;
+
+  /* --- CORES DE CATEGORIA --- */
+  --cat-frutas:     #e85d75;
+  --cat-verduras:   #7fc8a9;
+  --cat-carnes:     #d64545;
+  --cat-laticinios: #ff9a56;
+  --cat-padaria:    #b08050;
+  --cat-bebidas:    #6b9ac4;
+  --cat-limpeza:    #9b87c4;
+  --cat-higiene:    #e85d75;
+  --cat-outros:     #9a9590;
+  --cat-custom:     #7fc8a9;
+}
+
+/* ============================================
+   DARK MODE — Roxo + Cinza Escuro
+   ============================================ */
+[data-theme="dark"] {
+  --bg-primary:     #1a1a1a;
+  --bg-secondary:   #242424;
+  --bg-tertiary:    #2e2e2e;
+  --text-primary:   #f5f2ed;
+  --text-secondary: #c0bbb4;
+  --text-muted:     #6e6e6e;
+  --border-color:   #3a3a3a;
+
+  /* Roxo vibrante — cor principal no dark */
+  --accent:         #9b5de5;
+  --accent-hover:   #8b4ad5;
+
+  /* Status dark */
+  --color-success:  #8dd4b6;
+  --color-danger:   #ff5c5c;
+  --color-warning:  #ffaa70;
+  --color-info:     #b399d4;
+
+  /* Sombras escuras */
+  --shadow-sm:    2px 2px 0px rgba(0,0,0,0.40);
+  --shadow-md:    3px 3px 0px rgba(0,0,0,0.45);
+  --shadow-lg:    4px 4px 0px rgba(0,0,0,0.50);
+  --shadow-xl:    0 8px 32px rgba(0,0,0,0.50), 4px 4px 0px rgba(0,0,0,0.40);
+}
+
+/* ============================================
+   BASE GLOBAL
+   ============================================ */
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+  transition: background-color var(--transition), color var(--transition);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+input, select, button, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Scrollbar customizada */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+
+/* Animação do BudgetSummary quando acima do orçamento */
+@keyframes pulse-over-budget {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.75; }
+}

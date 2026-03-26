@@ -1,0 +1,279 @@
+/* =================================
+   SHOPPING ITEM — Retrô-Moderno
+   ================================= */
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 14px;
+  transition: background var(--transition), opacity var(--transition);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.item:hover {
+  background: var(--bg-secondary);
+}
+
+/* Item comprado */
+.bought {
+  opacity: 0.45;
+}
+
+.bought .name {
+  text-decoration: line-through;
+  text-decoration-color: var(--text-muted);
+  color: var(--text-muted);
+}
+
+/* ---- Checkbox ---- */
+.checkbox {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.checkboxInner {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  background: transparent;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.bought .checkboxInner {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.checkbox:hover .checkboxInner {
+  border-color: var(--accent);
+  background: rgba(232, 93, 117, 0.08);
+}
+
+/* ---- Conteúdo (nome + sublabel) ---- */
+.content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.name {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  border-radius: var(--radius-sm);
+  padding: 1px 3px;
+  margin: -1px -3px;
+  transition: background var(--transition);
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.name:hover {
+  background: var(--bg-tertiary);
+}
+
+.bought .name {
+  cursor: default;
+}
+
+.qtyLabel {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+}
+
+/* Input de edição inline */
+.editInput {
+  width: 100%;
+  padding: 3px 8px;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  outline: none;
+  font-family: var(--font-sans);
+  box-shadow: 2px 2px 0px var(--accent);
+}
+
+/* ---- Controle de quantidade (visível no hover) ---- */
+.quantityControl {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.item:hover .quantityControl {
+  opacity: 1;
+}
+
+.qtyBtn {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+
+.qtyBtn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.qtyBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.qtyValue {
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  font-weight: 700;
+  min-width: 16px;
+  text-align: center;
+}
+
+/* ---- Preço ---- */
+.priceWrapper {
+  flex-shrink: 0;
+}
+
+.priceBtn {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--accent);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: all var(--transition);
+  min-width: 72px;
+  text-align: right;
+  font-family: var(--font-mono);
+}
+
+.priceBtn:hover {
+  border-color: var(--border-color);
+  background: var(--bg-tertiary);
+  box-shadow: var(--shadow-sm);
+}
+
+.priceDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.priceUnit {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  line-height: 1;
+  font-weight: 400;
+}
+
+.addPrice {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Edição inline de preço */
+.priceEditGroup {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  background: var(--bg-secondary);
+  box-shadow: 2px 2px 0px var(--accent);
+}
+
+.pricePrefix {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+.priceEditInput {
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  width: 64px;
+  font-size: 0.82rem;
+  outline: none;
+  padding: 2px 0;
+  text-align: right;
+  font-family: var(--font-mono);
+}
+
+.priceEditInput::-webkit-outer-spin-button,
+.priceEditInput::-webkit-inner-spin-button { -webkit-appearance: none; }
+.priceEditInput[type=number] { -moz-appearance: textfield; }
+
+/* ---- Botão deletar (aparece no hover) ---- */
+.deleteBtn {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  flex-shrink: 0;
+  opacity: 0;
+  transition: all var(--transition);
+  border: 1px solid transparent;
+}
+
+.item:hover .deleteBtn {
+  opacity: 1;
+}
+
+.deleteBtn:hover {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+  background: transparent;
+  box-shadow: var(--shadow-sm);
+}

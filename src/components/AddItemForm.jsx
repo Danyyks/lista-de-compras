@@ -52,16 +52,27 @@ export function AddItemForm({ onAddItem, getLastPrice }) {
           <input
             id="item-name"
             type="text"
-            placeholder="Ex: Chocolate"
+            placeholder="Ex: Chocolate, Leite..."
             value={name}
             onChange={(e) => setName(e.target.value)}
             className={styles.input}
             autoComplete="off"
           />
+
+          {/* Histórico de preço — destaque */}
           {lastPrice !== null && (
-            <span className={styles.lastPriceHint}>
-              Último preço: {formatCurrency(lastPrice)}
-            </span>
+            <div className={styles.priceHistoryCard}>
+              <div className={styles.priceHistoryLeft}>
+                <span className={styles.priceHistoryIcon}>🏷️</span>
+                <div>
+                  <p className={styles.priceHistoryLabel}>Da última vez</p>
+                  <p className={styles.priceHistoryValue}>{formatCurrency(lastPrice)}</p>
+                </div>
+              </div>
+              <span className={styles.priceHistoryHint}>
+                será preenchido ao editar o preço
+              </span>
+            </div>
           )}
         </div>
       </div>
@@ -73,7 +84,7 @@ export function AddItemForm({ onAddItem, getLastPrice }) {
           {useCustomCategory ? (
             <input
               type="text"
-              placeholder="Personalizada..."
+              placeholder="Categoria personalizada..."
               value={customCategory}
               onChange={(e) => setCustomCategory(e.target.value)}
               className={styles.input}
@@ -111,40 +122,12 @@ export function AddItemForm({ onAddItem, getLastPrice }) {
         className={styles.submitBtn}
         disabled={!name.trim()}
       >
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          aria-hidden="true"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="2"
-          />
-          <line
-            x1="12"
-            y1="8"
-            x2="12"
-            y2="16"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <line
-            x1="8"
-            y1="12"
-            x2="16"
-            y2="12"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+          <line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
         </svg>
-        Adicionar
+        Adicionar à Lista
       </button>
     </form>
   );

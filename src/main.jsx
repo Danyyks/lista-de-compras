@@ -8,8 +8,13 @@ import App from './App.jsx'
 const savedTheme = localStorage.getItem('shopping-list-dark-mode')
 if (savedTheme === 'false') {
   document.documentElement.setAttribute('data-theme', 'light')
-} else {
+} else if (savedTheme === 'true') {
   document.documentElement.setAttribute('data-theme', 'dark')
+} else {
+  // modo automático: dark das 18h às 6h
+  const hour = new Date().getHours()
+  const isNight = hour >= 18 || hour < 6
+  document.documentElement.setAttribute('data-theme', isNight ? 'dark' : 'light')
 }
 
 createRoot(document.getElementById('root')).render(

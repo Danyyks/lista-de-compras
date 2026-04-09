@@ -22,9 +22,14 @@ function loadDarkMode() {
   return null
 }
 
+function isNightTime() {
+  const hour = new Date().getHours()
+  return hour >= 18 || hour < 6
+}
+
 function getEffectiveDarkMode(darkMode) {
   if (darkMode === null || darkMode === undefined) {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
+    return isNightTime()
   }
   return darkMode
 }
@@ -55,15 +60,16 @@ export default function App() {
     localStorage.setItem('shopping-list-dark-mode', darkMode === null ? 'auto' : String(darkMode))
   }, [darkMode])
 
-  // Reage à mudança de tema do sistema quando está no modo automático
+  // Atualiza o tema automaticamente conforme o horário quando está no modo automático
   useEffect(() => {
     if (darkMode !== null && darkMode !== undefined) return
-    const mq = window.matchMedia('(prefers-color-scheme: dark)')
-    function onChange(e) {
-      document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light')
+    function applyTimeTheme() {
+      document.documentElement.setAttribute('data-theme', isNightTime() ? 'dark' : 'light')
     }
-    mq.addEventListener('change', onChange)
-    return () => mq.removeEventListener('change', onChange)
+    applyTimeTheme()
+    // Verifica a cada minuto se o horário mudou
+    const interval = setInterval(applyTimeTheme, 60 * 1000)
+    return () => clearInterval(interval)
   }, [darkMode])
 
   // Salva o orçamento no localStorage

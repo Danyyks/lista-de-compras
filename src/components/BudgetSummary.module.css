@@ -1,19 +1,26 @@
 /* ==================================
-   BUDGET SUMMARY — Retrô-Moderno
+   BUDGET SUMMARY — Pastel Retro
    ================================== */
 
 .summary {
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent), #F4B8C8);
   border-radius: var(--radius-lg);
   padding: 20px;
   position: relative;
   overflow: hidden;
-  border: 2px solid var(--accent);
+  border: 2.5px solid var(--accent-hover);
   box-shadow: var(--shadow-lg);
 }
 
 .summary.over {
+  background: linear-gradient(135deg, #e07070, #d46060);
+  border-color: #c05050;
   animation: pulse-over-budget 2s ease infinite;
+}
+
+.summary.savings {
+  background: linear-gradient(135deg, #7fc8a9, #5db090);
+  border-color: #4da080;
 }
 
 /* Ícone decorativo no canto direito */
@@ -34,8 +41,8 @@
 }
 
 .labelWhite {
-  font-size: 0.62rem;
-  font-weight: 700;
+  font-size: 0.58rem;
+  font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.75);
@@ -52,7 +59,7 @@
   line-height: 1;
 }
 
-/* Totais extras (quando há orçamento) */
+/* Totais extras */
 .extrasRow {
   display: flex;
   gap: 0;
@@ -73,8 +80,8 @@
 .extraBlock:last-child  { padding-right: 0; }
 
 .extraLabel {
-  font-size: 0.6rem;
-  font-weight: 700;
+  font-size: 0.58rem;
+  font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.65);
@@ -89,9 +96,9 @@
   letter-spacing: -0.01em;
 }
 
-.extraValue.danger  { color: #ffaaaa; }
+.extraValue.danger  { color: #ffcccc; }
 .extraValue.warning { color: #ffe082; }
-.extraValue.success { color: #a5f3a5; }
+.extraValue.success { color: #ccf5e5; }
 
 .extraDivider {
   width: 1px;
@@ -103,9 +110,6 @@
 /* Barra de progresso */
 .progressWrapper {
   margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
 }
 
 .progressBar {
@@ -118,26 +122,41 @@
 .progressFill {
   height: 100%;
   border-radius: 99px;
-  transition: width 300ms ease;
+  transition: width 400ms ease;
 }
 
 .fillSuccess { background: rgba(255, 255, 255, 0.9); }
 .fillWarning { background: #ffe082; }
-.fillDanger  { background: #ffaaaa; }
+.fillDanger  { background: #ffcccc; }
 
-.progressLabel {
-  font-size: 0.66rem;
-  color: rgba(255, 255, 255, 0.75);
-  font-family: var(--font-mono);
+/* Mensagem personalizada */
+.messageRow {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.messageRowSavings {
+  background: rgba(255, 255, 255, 0.25);
+  animation: popIn 400ms ease;
+}
+
+.messageText {
+  font-size: 0.75rem;
+  font-weight: 800;
+  font-family: var(--font-sans);
+  color: #ffffff;
   letter-spacing: 0.02em;
 }
 
-/* Rodapé: badge de itens + "Pronto para o caixa" */
+/* Rodapé */
 .footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 16px;
+  margin-top: 14px;
   padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -145,8 +164,8 @@
 .itemsBadge {
   background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
-  font-size: 0.65rem;
-  font-weight: 700;
+  font-size: 0.62rem;
+  font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-family: var(--font-sans);

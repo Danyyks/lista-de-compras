@@ -1,5 +1,5 @@
 /* =================================
-   CATEGORY GROUP — Retrô-Moderno
+   CATEGORY GROUP — Pastel Retro
    ================================= */
 
 .group {
@@ -17,13 +17,12 @@
 .header::after {
   content: '';
   flex: 1;
-  height: 1px;
-  background: var(--border-color);
+  border-top: 1.5px dashed var(--border-color);
 }
 
 .title {
-  font-size: 0.6rem;
-  font-weight: 800;
+  font-size: 0.58rem;
+  font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   white-space: nowrap;

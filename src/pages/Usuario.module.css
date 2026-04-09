@@ -1,5 +1,5 @@
 /* ==============================
-   USUARIO PAGE — Retrô-Moderno
+   USUARIO PAGE — Pastel Retro
    ============================== */
 
 .screen {
@@ -19,14 +19,18 @@
   gap: 20px;
 }
 
-/* Título da página */
+/* Título */
 .pageTitle {
   font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 900;
   letter-spacing: 0.02em;
-  color: var(--accent);
+  color: var(--text-primary);
   text-align: center;
+}
+
+.pageTitleDot {
+  color: var(--accent);
 }
 
 /* ---- AVATAR ---- */
@@ -43,6 +47,7 @@
   height: 110px;
   border-radius: 50%;
   border: 3px solid var(--accent);
+  box-shadow: 0 0 0 4px var(--bg-primary), 0 0 0 7px var(--border-color);
   background: var(--bg-tertiary);
   position: relative;
   overflow: hidden;
@@ -53,11 +58,10 @@
   align-items: center;
   justify-content: center;
   color: var(--text-muted);
-  box-shadow: var(--shadow-lg);
 }
 
 .avatarBtn:hover {
-  box-shadow: 6px 6px 0px var(--accent);
+  box-shadow: 0 0 0 4px var(--bg-primary), 0 0 0 7px var(--accent);
 }
 
 .avatarBtn:hover .avatarOverlay {
@@ -80,7 +84,7 @@
 .avatarOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -96,7 +100,7 @@
   right: calc(50% - 55px - 4px);
   width: 28px;
   height: 28px;
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent), #F4B8C8);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -109,7 +113,6 @@
 }
 
 .avatarEditBadge:hover {
-  background: var(--accent-hover);
   box-shadow: var(--shadow-md);
 }
 
@@ -118,8 +121,9 @@
 }
 
 .removePhoto {
-  font-size: 0.68rem;
-  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-family: var(--font-sans);
+  font-weight: 700;
   color: var(--text-muted);
   transition: color var(--transition);
   letter-spacing: 0.06em;
@@ -158,8 +162,8 @@
 }
 
 .appearanceTitle {
-  font-size: 0.65rem;
-  font-weight: 700;
+  font-size: 0.62rem;
+  font-weight: 900;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -181,7 +185,7 @@
   padding: 14px 16px;
   background: var(--bg-secondary);
   border: 2px solid var(--border-color);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   cursor: pointer;
   transition: all var(--transition);
   font-family: var(--font-sans);
@@ -211,7 +215,7 @@
 
 .themeCardLabel {
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-secondary);
@@ -224,7 +228,7 @@
 /* ---- AGRADECIMENTO ---- */
 .thanks {
   font-size: 0.65rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -240,8 +244,8 @@
 
 /* ---- SAIR ---- */
 .signOut {
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 0.7rem;
+  font-weight: 800;
   font-family: var(--font-sans);
   color: var(--text-muted);
   letter-spacing: 0.1em;

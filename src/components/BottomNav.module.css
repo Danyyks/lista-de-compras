@@ -1,5 +1,5 @@
 /* ================================
-   BOTTOM NAV — Retrô-Moderno
+   BOTTOM NAV — Pastel Retro
    ================================ */
 
 .nav {
@@ -8,9 +8,9 @@
   left: 0;
   right: 0;
   background: var(--bg-primary);
-  padding: 10px 20px 20px;
+  padding: 10px 20px 14px;
   z-index: 100;
-  border-top: 2px solid var(--border-color);
+  border-top: 1.5px dashed var(--border-color);
 }
 
 .inner {
@@ -44,10 +44,10 @@
 }
 
 .tab.active {
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent), #F4B8C8);
   color: #ffffff;
-  border-color: var(--accent);
-  box-shadow: var(--shadow-md);
+  border-color: var(--accent-hover);
+  box-shadow: 3px 3px 0px var(--accent-hover);
 }
 
 .iconWrapper {
@@ -57,9 +57,38 @@
 }
 
 .label {
-  font-size: 0.62rem;
-  font-weight: 800;
+  font-size: 0.6rem;
+  font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-family: var(--font-sans);
 }
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.footerSep {
+  opacity: 0.5;
+}
+
+.footerLogo {
+  display: block;
+}
+
+:global([data-theme="dark"]) .footerLogoLight  { display: none; }
+:global([data-theme="dark"]) .footerLogoDark   { display: block; }
+:global([data-theme="light"]) .footerLogoDark  { display: none; }
+:global([data-theme="light"]) .footerLogoLight { display: block; }
+:global(:root:not([data-theme])) .footerLogoLight { display: none; }
+:global(:root:not([data-theme])) .footerLogoDark  { display: block; }

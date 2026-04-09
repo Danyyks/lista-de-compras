@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { formatCurrency, parsePrice } from '../utils/formatCurrency'
 import styles from './ShoppingItem.module.css'
 
-export function ShoppingItem({ item, onToggle, onDelete, onEdit }) {
+export function ShoppingItem({ item, onToggle, onDelete, onEdit, isNext }) {
   const [editingName, setEditingName] = useState(false)
   const [editingPrice, setEditingPrice] = useState(false)
   const [nameValue, setNameValue] = useState(item.name)
@@ -50,7 +50,16 @@ export function ShoppingItem({ item, onToggle, onDelete, onEdit }) {
   }
 
   return (
-    <div className={`${styles.item} ${item.bought ? styles.bought : ''}`}>
+    <div className={`${styles.item} ${item.bought ? styles.bought : ''} ${isNext ? styles.nextItem : ''}`}>
+      {/* Indicador "próximo" no modo de compra */}
+      {isNext && (
+        <div className={styles.nextBadge} aria-label="Próximo item">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+            <polygon points="0,0 10,5 0,10"/>
+          </svg>
+        </div>
+      )}
+
       <button
         className={styles.checkbox}
         onClick={() => onToggle(item.id)}

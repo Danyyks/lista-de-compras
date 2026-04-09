@@ -5,7 +5,6 @@ export function BottomNav({ onNavigateToLista }) {
   const navigate = useNavigate()
   const location = useLocation()
 
-  // Descobre qual aba está ativa com base na URL atual
   const isLista   = location.pathname === '/lista'
   const isUsuario = location.pathname === '/usuario'
 
@@ -51,6 +50,40 @@ export function BottomNav({ onNavigateToLista }) {
           <span className={styles.label}>Config</span>
         </button>
 
+      </div>
+
+      <div className={styles.footer}>
+        <span>© listinha 2026</span>
+        <span className={styles.footerSep}>·</span>
+        <span>desenvolvido por</span>
+        {/* Logo dark mode */}
+        <svg className={`${styles.footerLogo} ${styles.footerLogoDark}`} width="48" height="20" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="kGradNavDark" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#b794f6" />
+              <stop offset="100%" stopColor="#805ad5" />
+            </linearGradient>
+          </defs>
+          <polygon points="180,120 220,140 220,280 180,300" fill="url(#kGradNavDark)" />
+          <polygon points="220,140 380,120 380,180 260,200" fill="url(#kGradNavDark)" />
+          <polygon points="260,220 380,240 380,300 220,280" fill="url(#kGradNavDark)" />
+          <text x="410" y="260" fontFamily="Arial, sans-serif" fontSize="120" fontWeight="700" fill="#ffffff" letterSpacing="0">Khode</text>
+          <text x="410" y="310" fontFamily="Arial, sans-serif" fontSize="32" fontWeight="400" fill="#805ad5" letterSpacing="12">SYSTEMS</text>
+        </svg>
+        {/* Logo light mode */}
+        <svg className={`${styles.footerLogo} ${styles.footerLogoLight}`} width="48" height="20" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="kGradNavLight" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#b794f6" />
+              <stop offset="100%" stopColor="#805ad5" />
+            </linearGradient>
+          </defs>
+          <polygon points="180,120 220,140 220,280 180,300" fill="url(#kGradNavLight)" />
+          <polygon points="220,140 380,120 380,180 260,200" fill="url(#kGradNavLight)" />
+          <polygon points="260,220 380,240 380,300 220,280" fill="url(#kGradNavLight)" />
+          <text x="410" y="260" fontFamily="Arial, sans-serif" fontSize="120" fontWeight="700" fill="#1e293b" letterSpacing="0">Khode</text>
+          <text x="410" y="310" fontFamily="Arial, sans-serif" fontSize="32" fontWeight="400" fill="#805ad5" letterSpacing="12">SYSTEMS</text>
+        </svg>
       </div>
     </nav>
   )

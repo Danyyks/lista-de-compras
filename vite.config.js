@@ -1,12 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
-  base: '/lista-de-compras/',
+  base: '/',
   plugins: [
-    tailwindcss(),
     react(),
     VitePWA({
       // O service worker e registrado automaticamente
@@ -21,7 +19,7 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
 
         // Network First para o HTML raiz — garante que o app sempre abre
-        navigateFallback: '/lista-de-compras/index.html',
+        navigateFallback: '/index.html',
 
         // Cache First com revalidacao para assets estaticos (JS, CSS, fontes)
         runtimeCaching: [
@@ -63,8 +61,8 @@ export default defineConfig({
         name: 'Listinha — Lista de Compras',
         short_name: 'Listinha',
         description: 'Sua lista de compras organizada por categorias, com controle de orçamento.',
-        start_url: '/lista-de-compras/',
-        scope: '/lista-de-compras/',
+        start_url: '/',
+        scope: '/',
         display: 'standalone',
         orientation: 'portrait-primary',
 
@@ -79,25 +77,25 @@ export default defineConfig({
 
         icons: [
           {
-            src: '/lista-de-compras/icons/icon-192.png',
+            src: '/icons/icon-192.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: '/lista-de-compras/icons/icon-192-maskable.png',
+            src: '/icons/icon-192-maskable.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'maskable',
           },
           {
-            src: '/lista-de-compras/icons/icon-512.png',
+            src: '/icons/icon-512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: '/lista-de-compras/icons/icon-512-maskable.png',
+            src: '/icons/icon-512-maskable.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',

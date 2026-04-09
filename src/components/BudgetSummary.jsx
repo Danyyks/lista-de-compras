@@ -1,15 +1,38 @@
 import { formatCurrency } from '../utils/formatCurrency'
 import styles from './BudgetSummary.module.css'
 
-export function BudgetSummary({ total, totalBought, budget, itemCount }) {
+export function BudgetSummary({ total, totalBought, budget, itemCount, boughtCount, userName }) {
   const ratio = budget > 0 ? totalBought / budget : 0
   const overBudget = budget > 0 && ratio >= 1
   const nearBudget = budget > 0 && ratio >= 0.9 && ratio < 1
 
   const progressWidth = budget > 0 ? Math.min(ratio * 100, 100) : 0
 
+  const savings = budget > 0 ? budget - totalBought : 0
+  const hasSavings = savings > 0 && boughtCount > 0 && !overBudget
+  const allDone = itemCount > 0 && boughtCount === itemCount
+
+  // Mensagem personalizada conforme progresso
+  function getProgressMessage() {
+    if (allDone && hasSavings) {
+      return userName
+        ? `${userName}, você economizou ${formatCurrency(savings)}! 🎉`
+        : `Você economizou ${formatCurrency(savings)}! 🎉`
+    }
+    if (allDone) {
+      return userName ? `Lista completa, ${userName}! Arrasou!` : 'Lista completa!'
+    }
+    if (overBudget) {
+      return `Acima do orçamento em ${formatCurrency(totalBought - budget)}`
+    }
+    if (budget > 0) {
+      return `Restam ${formatCurrency(savings)}`
+    }
+    return 'Pronto para o caixa'
+  }
+
   return (
-    <div className={`${styles.summary} ${overBudget ? styles.over : ''}`}>
+    <div className={`${styles.summary} ${overBudget ? styles.over : ''} ${allDone && hasSavings ? styles.savings : ''}`}>
 
       {/* Ícone decorativo */}
       <div className={styles.decorIcon} aria-hidden="true">
@@ -51,20 +74,24 @@ export function BudgetSummary({ total, totalBought, budget, itemCount }) {
                 style={{ width: `${progressWidth}%` }}
               />
             </div>
-            <span className={styles.progressLabel}>
-              {overBudget
-                ? `Acima do orçamento em ${formatCurrency(totalBought - budget)}`
-                : `Restam ${formatCurrency(budget - totalBought)}`}
-            </span>
           </div>
         </>
       )}
 
+      {/* Banner de economia / mensagem personalizada */}
+      {(allDone || hasSavings || budget > 0) && (
+        <div className={`${styles.messageRow} ${allDone && hasSavings ? styles.messageRowSavings : ''}`}>
+          <span className={styles.messageText}>{getProgressMessage()}</span>
+        </div>
+      )}
+
       <div className={styles.footer}>
         <span className={styles.itemsBadge}>
-          {itemCount} {itemCount === 1 ? 'item' : 'itens'}
+          {boughtCount}/{itemCount} {itemCount === 1 ? 'item' : 'itens'}
         </span>
-        <span className={styles.readyLabel}>Pronto para o caixa</span>
+        {!(allDone && hasSavings) && (
+          <span className={styles.readyLabel}>Pronto para o caixa</span>
+        )}
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { sortCategoryKeys } from '../utils/categories'
 import { Header } from '../components/Header'
@@ -6,6 +6,10 @@ import { AddItemForm } from '../components/AddItemForm'
 import { CategoryGroup } from '../components/CategoryGroup'
 import { BudgetSummary } from '../components/BudgetSummary'
 import '../App.css'
+
+function loadAutoSort() {
+  return localStorage.getItem('shopping-list-auto-sort') !== 'false'
+}
 
 export function ListaCompras({
   items,
@@ -21,6 +25,12 @@ export function ListaCompras({
   userName,
 }) {
   const navigate = useNavigate()
+  const [autoSort, setAutoSort] = useState(loadAutoSort)
+  const [shoppingMode, setShoppingMode] = useState(false)
+
+  useEffect(() => {
+    localStorage.setItem('shopping-list-auto-sort', String(autoSort))
+  }, [autoSort])
 
   // Agrupa os itens por categoria
   const groupedItems = useMemo(() => {
@@ -37,7 +47,20 @@ export function ListaCompras({
     [groupedItems]
   )
 
-  // Calcula os totais
+  // Lista plana (sem agrupamento), ordenada por createdAt
+  const flatItems = useMemo(() => {
+    const pending = items.filter(i => !i.bought).sort((a, b) => a.createdAt - b.createdAt)
+    const bought = items.filter(i => i.bought).sort((a, b) => a.createdAt - b.createdAt)
+    return [...pending, ...bought]
+  }, [items])
+
+  // Próximo item a comprar (para o modo de compra)
+  const nextItem = useMemo(
+    () => items.find(i => !i.bought),
+    [items]
+  )
+
+  // Totais
   const total = useMemo(
     () => items.reduce((sum, i) => sum + i.price * i.quantity, 0),
     [items]
@@ -46,7 +69,10 @@ export function ListaCompras({
     () => items.filter(i => i.bought).reduce((sum, i) => sum + i.price * i.quantity, 0),
     [items]
   )
-  const hasBoughtItems = items.some(i => i.bought)
+
+  const boughtCount = items.filter(i => i.bought).length
+  const hasBoughtItems = boughtCount > 0
+  const allDone = items.length > 0 && boughtCount === items.length
 
   return (
     <div className="app">
@@ -55,24 +81,81 @@ export function ListaCompras({
         onBudgetChange={onBudgetChange}
         userName={userName}
         onChangeName={() => navigate('/usuario')}
+        autoSort={autoSort}
+        onToggleAutoSort={() => setAutoSort(prev => !prev)}
+        shoppingMode={shoppingMode}
+        onToggleShoppingMode={() => setShoppingMode(prev => !prev)}
+        boughtCount={boughtCount}
+        totalCount={items.length}
       />
 
       <div className="appContent">
-        <AddItemForm
-          onAddItem={onAddItem}
-          getLastPrice={getLastPrice}
-        />
 
-        {sortedCategoryKeys.map(cat => (
-          <CategoryGroup
-            key={cat}
-            category={cat}
-            items={groupedItems[cat]}
-            onToggle={onToggleItem}
-            onDelete={onRemoveItem}
-            onEdit={onEditItem}
+        {/* Modo de Compra: banner de progresso */}
+        {shoppingMode && items.length > 0 && (
+          <div className={`shoppingModeBanner ${allDone ? 'shoppingModeDone' : ''}`}>
+            {allDone ? (
+              <p className="shoppingModeLabel">
+                🎉 Lista completa, {userName}! Arrasou nas compras!
+              </p>
+            ) : (
+              <>
+                <p className="shoppingModeLabel">
+                  {boughtCount === 0
+                    ? `Vamos lá, ${userName}! Próximo item:`
+                    : `${userName}, faltam só ${items.length - boughtCount} ${items.length - boughtCount === 1 ? 'item' : 'itens'}!`
+                  }
+                </p>
+                {nextItem && (
+                  <p className="shoppingModeNext">➜ {nextItem.name}</p>
+                )}
+                <div className="shoppingModeProgressBar">
+                  <div
+                    className="shoppingModeProgressFill"
+                    style={{ width: `${(boughtCount / items.length) * 100}%` }}
+                  />
+                </div>
+                <p className="shoppingModeCount">{boughtCount} de {items.length} comprados</p>
+              </>
+            )}
+          </div>
+        )}
+
+        {!shoppingMode && (
+          <AddItemForm
+            onAddItem={onAddItem}
+            getLastPrice={getLastPrice}
           />
-        ))}
+        )}
+
+        {/* Lista agrupada ou plana */}
+        {autoSort ? (
+          sortedCategoryKeys.map(cat => (
+            <CategoryGroup
+              key={cat}
+              category={cat}
+              items={groupedItems[cat]}
+              onToggle={onToggleItem}
+              onDelete={onRemoveItem}
+              onEdit={onEditItem}
+              shoppingMode={shoppingMode}
+              nextItemId={nextItem?.id}
+            />
+          ))
+        ) : (
+          flatItems.length > 0 && (
+            <CategoryGroup
+              category="__flat__"
+              items={flatItems}
+              onToggle={onToggleItem}
+              onDelete={onRemoveItem}
+              onEdit={onEditItem}
+              hideHeader
+              shoppingMode={shoppingMode}
+              nextItemId={nextItem?.id}
+            />
+          )
+        )}
 
         {items.length === 0 && (
           <div className="emptyState">
@@ -81,7 +164,11 @@ export function ListaCompras({
               <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
               <path d="M16 10a4 4 0 01-8 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <p>Sua lista está vazia.<br/>Adicione o primeiro item acima!</p>
+            <p>
+              {userName
+                ? `${userName}, sua lista está vazia.\nAdicione o primeiro item acima!`
+                : 'Sua lista está vazia.\nAdicione o primeiro item acima!'}
+            </p>
           </div>
         )}
 
@@ -91,6 +178,8 @@ export function ListaCompras({
             totalBought={totalBought}
             budget={budget}
             itemCount={items.length}
+            boughtCount={boughtCount}
+            userName={userName}
           />
         )}
 

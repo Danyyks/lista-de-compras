@@ -12,7 +12,66 @@
   gap: 16px;
 }
 
-/* Estado vazio da lista */
+/* ---- Banner do modo de compra ---- */
+.shoppingModeBanner {
+  background: linear-gradient(135deg, var(--accent), #F4B8C8);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  border: 2.5px solid var(--accent-hover);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: fadeSlideIn 250ms ease;
+}
+
+.shoppingModeDone {
+  background: linear-gradient(135deg, #7fc8a9, #5db090);
+  border-color: #4da080;
+}
+
+.shoppingModeLabel {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-sans);
+}
+
+.shoppingModeNext {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.shoppingModeProgressBar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.shoppingModeProgressFill {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 99px;
+  transition: width 400ms ease;
+}
+
+.shoppingModeCount {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-sans);
+}
+
+/* Estado vazio */
 .emptyState {
   text-align: center;
   padding: 56px 24px;
@@ -26,18 +85,20 @@
 .emptyState svg {
   margin: 0 auto 16px;
   display: block;
-  opacity: 0.3;
+  opacity: 0.25;
 }
 
 .emptyState p {
   font-size: 0.875rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   line-height: 1.7;
   color: var(--text-secondary);
   font-family: var(--font-sans);
+  font-weight: 600;
+  white-space: pre-line;
 }
 
-/* Botão de limpar comprados */
+/* Botão limpar comprados */
 .clearBoughtBtn {
   width: 100%;
   display: flex;
@@ -49,8 +110,8 @@
   color: var(--color-danger);
   border: 2px solid var(--color-danger);
   border-radius: var(--radius-full);
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 0.7rem;
+  font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-family: var(--font-sans);
@@ -66,7 +127,7 @@
   transform: translateY(-1px);
 }
 
-/* Botão de nova lista / limpar tudo */
+/* Botão nova lista */
 .clearAllBtn {
   width: 100%;
   display: flex;
@@ -78,8 +139,8 @@
   color: var(--text-muted);
   border: 2px solid var(--border-color);
   border-radius: var(--radius-full);
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 0.7rem;
+  font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-family: var(--font-sans);

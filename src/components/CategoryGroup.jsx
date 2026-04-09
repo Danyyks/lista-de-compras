@@ -2,7 +2,7 @@ import { ShoppingItem } from './ShoppingItem'
 import { getCategoryLabel, getCategoryColor } from '../utils/categories'
 import styles from './CategoryGroup.module.css'
 
-export function CategoryGroup({ category, items, onToggle, onDelete, onEdit }) {
+export function CategoryGroup({ category, items, onToggle, onDelete, onEdit, hideHeader, shoppingMode, nextItemId }) {
   const label = getCategoryLabel(category)
   const color = getCategoryColor(category)
 
@@ -11,9 +11,11 @@ export function CategoryGroup({ category, items, onToggle, onDelete, onEdit }) {
 
   return (
     <section className={styles.group}>
-      <div className={styles.header}>
-        <h2 className={styles.title} style={{ color }}>{label}</h2>
-      </div>
+      {!hideHeader && (
+        <div className={styles.header}>
+          <h2 className={styles.title} style={{ color }}>{label}</h2>
+        </div>
+      )}
 
       <div className={styles.items}>
         {pending.map(item => (
@@ -23,6 +25,7 @@ export function CategoryGroup({ category, items, onToggle, onDelete, onEdit }) {
             onToggle={onToggle}
             onDelete={onDelete}
             onEdit={onEdit}
+            isNext={shoppingMode && item.id === nextItemId}
           />
         ))}
         {bought.map(item => (
@@ -32,6 +35,7 @@ export function CategoryGroup({ category, items, onToggle, onDelete, onEdit }) {
             onToggle={onToggle}
             onDelete={onDelete}
             onEdit={onEdit}
+            isNext={false}
           />
         ))}
       </div>

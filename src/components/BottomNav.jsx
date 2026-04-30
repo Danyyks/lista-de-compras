@@ -1,6 +1,42 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import styles from './BottomNav.module.css'
 
+function IconLista({ filled }) {
+  if (filled) {
+    return (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M15 2H9a1 1 0 00-1 1v1H6a2 2 0 00-2 2v13a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2V3a1 1 0 00-1-1zm-3 1.5h2V5h-2V3.5zM8.25 11a.75.75 0 000 1.5h7.5a.75.75 0 000-1.5h-7.5zm0 3.5a.75.75 0 000 1.5h5a.75.75 0 000-1.5h-5z"/>
+      </svg>
+    )
+  }
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+      <rect x="9" y="3" width="6" height="4" rx="1"/>
+      <line x1="9" y1="12" x2="15" y2="12"/>
+      <line x1="9" y1="16" x2="13" y2="16"/>
+    </svg>
+  )
+}
+
+function IconPerfil({ filled }) {
+  if (filled) {
+    return (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2a5 5 0 110 10A5 5 0 0112 2zm0 12c5.52 0 8 2.69 8 4v1.5a.5.5 0 01-.5.5h-15a.5.5 0 01-.5-.5V18c0-1.31 2.48-4 8-4z"/>
+      </svg>
+    )
+  }
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+      stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 20c0-3.5 3.6-6 8-6s8 2.5 8 6"/>
+    </svg>
+  )
+}
+
 export function BottomNav({ onNavigateToLista }) {
   const navigate = useNavigate()
   const location = useLocation()
@@ -12,7 +48,6 @@ export function BottomNav({ onNavigateToLista }) {
     <nav className={styles.nav} aria-label="Navegação principal">
       <div className={styles.inner}>
 
-        {/* Minha Lista */}
         <button
           className={`${styles.tab} ${isLista ? styles.active : ''}`}
           onClick={onNavigateToLista}
@@ -20,70 +55,23 @@ export function BottomNav({ onNavigateToLista }) {
           aria-current={isLista ? 'page' : undefined}
         >
           <span className={styles.iconWrapper}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
-              stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
-            >
-              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-              <line x1="3" y1="6" x2="21" y2="6"/>
-              <line x1="9"  y1="12" x2="15" y2="12"/>
-              <line x1="9"  y1="16" x2="13" y2="16"/>
-            </svg>
+            <IconLista filled={isLista} />
           </span>
-          <span className={styles.label}>Minha Lista</span>
+          <span className={styles.label}>Lista</span>
         </button>
 
-        {/* Usuário / Config */}
         <button
           className={`${styles.tab} ${isUsuario ? styles.active : ''}`}
           onClick={() => navigate('/usuario')}
-          aria-label="Configurações"
+          aria-label="Perfil"
           aria-current={isUsuario ? 'page' : undefined}
         >
           <span className={styles.iconWrapper}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
-              stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="3"/>
-              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
-            </svg>
+            <IconPerfil filled={isUsuario} />
           </span>
-          <span className={styles.label}>Config</span>
+          <span className={styles.label}>Perfil</span>
         </button>
 
-      </div>
-
-      <div className={styles.footer}>
-        <span>© listinha 2026</span>
-        <span className={styles.footerSep}>·</span>
-        <span>desenvolvido por</span>
-        {/* Logo dark mode */}
-        <svg className={`${styles.footerLogo} ${styles.footerLogoDark}`} width="48" height="20" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="kGradNavDark" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#b794f6" />
-              <stop offset="100%" stopColor="#805ad5" />
-            </linearGradient>
-          </defs>
-          <polygon points="180,120 220,140 220,280 180,300" fill="url(#kGradNavDark)" />
-          <polygon points="220,140 380,120 380,180 260,200" fill="url(#kGradNavDark)" />
-          <polygon points="260,220 380,240 380,300 220,280" fill="url(#kGradNavDark)" />
-          <text x="410" y="260" fontFamily="Arial, sans-serif" fontSize="120" fontWeight="700" fill="#ffffff" letterSpacing="0">Khode</text>
-          <text x="410" y="310" fontFamily="Arial, sans-serif" fontSize="32" fontWeight="400" fill="#805ad5" letterSpacing="12">SYSTEMS</text>
-        </svg>
-        {/* Logo light mode */}
-        <svg className={`${styles.footerLogo} ${styles.footerLogoLight}`} width="48" height="20" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="kGradNavLight" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#b794f6" />
-              <stop offset="100%" stopColor="#805ad5" />
-            </linearGradient>
-          </defs>
-          <polygon points="180,120 220,140 220,280 180,300" fill="url(#kGradNavLight)" />
-          <polygon points="220,140 380,120 380,180 260,200" fill="url(#kGradNavLight)" />
-          <polygon points="260,220 380,240 380,300 220,280" fill="url(#kGradNavLight)" />
-          <text x="410" y="260" fontFamily="Arial, sans-serif" fontSize="120" fontWeight="700" fill="#1e293b" letterSpacing="0">Khode</text>
-          <text x="410" y="310" fontFamily="Arial, sans-serif" fontSize="32" fontWeight="400" fill="#805ad5" letterSpacing="12">SYSTEMS</text>
-        </svg>
       </div>
     </nav>
   )

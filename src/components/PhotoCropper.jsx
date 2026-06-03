@@ -152,7 +152,7 @@ export function PhotoCropper({ imageSrc, onConfirm, onCancel }) {
   return (
     <div className={styles.overlay} onClick={(e) => e.target === e.currentTarget && onCancel()}>
       <div className={styles.modal}>
-        <p className={styles.hint}>Arraste para reposicionar · Belisco ou scroll para zoom</p>
+        <p className={styles.hint}>Arraste para reposicionar · Scroll ou belisco para zoom · Toque fora para cancelar</p>
 
         <div
           ref={cropContainerRef}

@@ -4,6 +4,7 @@
 
 .group {
   background: transparent;
+  animation: fadeSlideUp 180ms ease;
 }
 
 .header {

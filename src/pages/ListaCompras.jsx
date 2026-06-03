@@ -1,14 +1,19 @@
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { sortCategoryKeys } from '../utils/categories'
+import { sortCategoryKeys, CATEGORY_MAP } from '../utils/categories'
 import { Header } from '../components/Header'
 import { AddItemForm } from '../components/AddItemForm'
 import { CategoryGroup } from '../components/CategoryGroup'
 import { BudgetSummary } from '../components/BudgetSummary'
+import { formatCurrency } from '../utils/formatCurrency'
 import '../App.css'
 
 function loadAutoSort() {
   return localStorage.getItem('shopping-list-auto-sort') !== 'false'
+}
+
+function loadShoppingMode() {
+  return localStorage.getItem('shopping-list-shopping-mode') === 'true'
 }
 
 export function ListaCompras({
@@ -27,11 +32,16 @@ export function ListaCompras({
 }) {
   const navigate = useNavigate()
   const [autoSort, setAutoSort] = useState(loadAutoSort)
-  const [shoppingMode, setShoppingMode] = useState(false)
+  const [shoppingMode, setShoppingMode] = useState(loadShoppingMode)
+  const [toastMsg, setToastMsg] = useState(null)
 
   useEffect(() => {
     localStorage.setItem('shopping-list-auto-sort', String(autoSort))
   }, [autoSort])
+
+  useEffect(() => {
+    localStorage.setItem('shopping-list-shopping-mode', String(shoppingMode))
+  }, [shoppingMode])
 
   // Agrupa os itens por categoria
   const groupedItems = useMemo(() => {
@@ -71,12 +81,35 @@ export function ListaCompras({
     [items]
   )
 
+  const prevTotalBoughtRef = useRef(totalBought)
+  useEffect(() => {
+    if (budget > 0 && prevTotalBoughtRef.current <= budget && totalBought > budget) {
+      setToastMsg(`⚠️ Passou do orçamento em ${formatCurrency(totalBought - budget)}`)
+      const t = setTimeout(() => setToastMsg(null), 4000)
+      return () => clearTimeout(t)
+    }
+    prevTotalBoughtRef.current = totalBought
+  }, [totalBought, budget])
+
+  const topCategory = useMemo(() => {
+    const totals = {}
+    for (const item of items.filter(i => i.bought)) {
+      totals[item.category] = (totals[item.category] || 0) + item.price * item.quantity
+    }
+    const sorted = Object.entries(totals).filter(([, v]) => v > 0).sort(([, a], [, b]) => b - a)
+    if (!sorted.length) return null
+    const [cat, val] = sorted[0]
+    const pct = totalBought > 0 ? Math.round((val / totalBought) * 100) : 0
+    return pct >= 20 ? { cat, val, pct } : null
+  }, [items, totalBought])
+
   const boughtCount = items.filter(i => i.bought).length
   const hasBoughtItems = boughtCount > 0
   const allDone = items.length > 0 && boughtCount === items.length
 
   return (
     <div className="app">
+      {toastMsg && <div className="budgetToast">{toastMsg}</div>}
       <Header
         budget={budget}
         onBudgetChange={onBudgetChange}
@@ -127,6 +160,7 @@ export function ListaCompras({
           <AddItemForm
             onAddItem={onAddItem}
             getLastPrice={getLastPrice}
+            existingNames={items.map(i => i.name.trim().toLowerCase())}
           />
         )}
 
@@ -142,6 +176,7 @@ export function ListaCompras({
               onEdit={onEditItem}
               shoppingMode={shoppingMode}
               nextItemId={nextItem?.id}
+              getLastPrice={getLastPrice}
             />
           ))
         ) : (
@@ -155,6 +190,7 @@ export function ListaCompras({
               hideHeader
               shoppingMode={shoppingMode}
               nextItemId={nextItem?.id}
+              getLastPrice={getLastPrice}
             />
           )
         )}
@@ -182,6 +218,7 @@ export function ListaCompras({
             itemCount={items.length}
             boughtCount={boughtCount}
             userName={userName}
+            topCategory={topCategory}
           />
         )}
 

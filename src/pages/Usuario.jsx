@@ -10,6 +10,7 @@ export function Usuario({
   onSignOut,
   darkMode,
   onSetTheme,
+  onClearPriceHistory,
 }) {
   const fileInputRef = useRef(null);
   const [cropSrc, setCropSrc] = useState(null);
@@ -162,7 +163,7 @@ export function Usuario({
                     <line x1="6.34" y1="17.66" x2="4.22" y2="19.78" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                 </span>
-                <span className={styles.themeCardLabel}>Light Mode</span>
+                <span className={styles.themeCardLabel}>Claro</span>
               </button>
 
               <button
@@ -180,7 +181,7 @@ export function Usuario({
                     />
                   </svg>
                 </span>
-                <span className={styles.themeCardLabel}>Dark Mode</span>
+                <span className={styles.themeCardLabel}>Escuro</span>
               </button>
 
               <button
@@ -194,10 +195,27 @@ export function Usuario({
                     <path d="M12 3a9 9 0 010 18z" fill="currentColor" opacity="0.2" />
                   </svg>
                 </span>
-                <span className={styles.themeCardLabel}>Auto</span>
+                <span className={styles.themeCardLabel}>Automático</span>
               </button>
             </div>
           </div>
+
+          {/* Seção Dados */}
+          {onClearPriceHistory && (
+            <div className={styles.dataSection}>
+              <p className={styles.appearanceTitle}>Dados</p>
+              <button
+                className={styles.dangerBtn}
+                onClick={() => {
+                  if (window.confirm('Limpar histórico de preços? Não é possível desfazer.')) {
+                    onClearPriceHistory()
+                  }
+                }}
+              >
+                Limpar histórico de preços
+              </button>
+            </div>
+          )}
 
           {/* Agradecimento */}
           <p className={styles.thanks}>Boas compras, volte sempre!</p>

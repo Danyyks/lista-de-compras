@@ -2,7 +2,7 @@ import { ShoppingItem } from './ShoppingItem'
 import { getCategoryLabel, getCategoryColor } from '../utils/categories'
 import styles from './CategoryGroup.module.css'
 
-export function CategoryGroup({ category, items, onToggle, onDelete, onEdit, hideHeader, shoppingMode, nextItemId }) {
+export function CategoryGroup({ category, items, onToggle, onDelete, onEdit, hideHeader, shoppingMode, nextItemId, getLastPrice }) {
   const label = getCategoryLabel(category)
   const color = getCategoryColor(category)
 
@@ -26,6 +26,7 @@ export function CategoryGroup({ category, items, onToggle, onDelete, onEdit, hid
             onDelete={onDelete}
             onEdit={onEdit}
             isNext={shoppingMode && item.id === nextItemId}
+            lastHistoryPrice={getLastPrice ? getLastPrice(item.name) : 0}
           />
         ))}
         {bought.map(item => (
@@ -36,6 +37,7 @@ export function CategoryGroup({ category, items, onToggle, onDelete, onEdit, hid
             onDelete={onDelete}
             onEdit={onEdit}
             isNext={false}
+            lastHistoryPrice={getLastPrice ? getLastPrice(item.name) : 0}
           />
         ))}
       </div>

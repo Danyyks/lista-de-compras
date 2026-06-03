@@ -3,12 +3,13 @@ import { CATEGORIES } from "../utils/categories";
 import { formatCurrency } from "../utils/formatCurrency";
 import styles from "./AddItemForm.module.css";
 
-export function AddItemForm({ onAddItem, getLastPrice }) {
+export function AddItemForm({ onAddItem, getLastPrice, existingNames }) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("outros");
   const [customCategory, setCustomCategory] = useState("");
   const [useCustomCategory, setUseCustomCategory] = useState(false);
   const [lastPrice, setLastPrice] = useState(null);
+  const [duplicateWarning, setDuplicateWarning] = useState(false);
 
   useEffect(() => {
     const trimmed = name.trim();
@@ -24,6 +25,12 @@ export function AddItemForm({ onAddItem, getLastPrice }) {
     e.preventDefault();
     const trimmedName = name.trim();
     if (!trimmedName) return;
+
+    if (existingNames?.includes(trimmedName.toLowerCase())) {
+      setDuplicateWarning(true)
+      return
+    }
+    setDuplicateWarning(false)
 
     const resolvedCategory = useCustomCategory
       ? customCategory.trim().toLowerCase() || "outros"
@@ -54,10 +61,14 @@ export function AddItemForm({ onAddItem, getLastPrice }) {
             type="text"
             placeholder="Ex: Chocolate, Leite..."
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => { setName(e.target.value); setDuplicateWarning(false) }}
             className={styles.input}
             autoComplete="off"
           />
+
+          {duplicateWarning && (
+            <span className={styles.duplicateWarning}>Item já está na lista</span>
+          )}
 
           {/* Histórico de preço — destaque */}
           {lastPrice !== null && (

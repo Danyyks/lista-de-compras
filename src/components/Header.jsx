@@ -27,10 +27,14 @@ export function Header({
   }, [budget])
 
   function handleBudgetChange(e) {
-    const raw = e.target.value;
-    setBudgetInput(raw);
-    const value = parsePrice(raw);
-    onBudgetChange(value > 0 ? value : null);
+    const raw = e.target.value
+    setBudgetInput(raw)
+    if (raw === '') {
+      onBudgetChange(null)
+    } else {
+      const value = Math.min(99999.99, parsePrice(raw))
+      onBudgetChange(value > 0 ? value : null)
+    }
   }
 
   function toggleBudget() {
@@ -120,6 +124,7 @@ export function Header({
               id="budget-input"
               type="number"
               min="0"
+              max="99999.99"
               step="0.01"
               placeholder="0,00"
               value={budgetInput}
@@ -127,6 +132,9 @@ export function Header({
               className={styles.budgetInput}
             />
           </div>
+          {budgetInput && !budget && (
+            <span className={styles.budgetError}>Valor deve ser maior que zero</span>
+          )}
         </div>
       )}
     </header>

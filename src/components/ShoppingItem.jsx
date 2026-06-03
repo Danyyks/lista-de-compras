@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { formatCurrency, parsePrice } from '../utils/formatCurrency'
 import styles from './ShoppingItem.module.css'
 
-export function ShoppingItem({ item, onToggle, onDelete, onEdit, isNext }) {
+export function ShoppingItem({ item, onToggle, onDelete, onEdit, isNext, lastHistoryPrice }) {
   const [editingName, setEditingName] = useState(false)
   const [editingPrice, setEditingPrice] = useState(false)
   const [nameValue, setNameValue] = useState(item.name)
@@ -34,7 +34,7 @@ export function ShoppingItem({ item, onToggle, onDelete, onEdit, isNext }) {
   }
 
   function commitPrice() {
-    const price = parsePrice(priceValue)
+    const price = Math.max(0, parsePrice(priceValue))
     onEdit(item.id, { price })
     setEditingPrice(false)
   }
@@ -97,6 +97,11 @@ export function ShoppingItem({ item, onToggle, onDelete, onEdit, isNext }) {
         <span className={styles.qtyLabel}>
           {item.quantity ?? 1} {(item.quantity ?? 1) === 1 ? 'unidade' : 'unidades'}
         </span>
+        {item.bought && item.price > 0 && lastHistoryPrice > 0 && lastHistoryPrice !== item.price && (
+          <span className={styles.priceHint}>
+            última vez: {formatCurrency(lastHistoryPrice)}
+          </span>
+        )}
       </div>
 
       <div className={styles.quantityControl}>

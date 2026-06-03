@@ -156,3 +156,22 @@
   box-shadow: var(--shadow-md);
   transform: translateY(-1px);
 }
+
+.budgetToast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-danger);
+  color: #fff;
+  padding: 11px 20px;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-family: var(--font-sans);
+  letter-spacing: 0.04em;
+  box-shadow: var(--shadow-lg);
+  animation: fadeSlideIn 200ms ease;
+  white-space: nowrap;
+  z-index: 100;
+}

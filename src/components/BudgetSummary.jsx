@@ -1,7 +1,8 @@
 import { formatCurrency } from '../utils/formatCurrency'
+import { CATEGORY_MAP } from '../utils/categories'
 import styles from './BudgetSummary.module.css'
 
-export function BudgetSummary({ total, totalBought, budget, itemCount, boughtCount, userName }) {
+export function BudgetSummary({ total, totalBought, budget, itemCount, boughtCount, userName, topCategory }) {
   const ratio = budget > 0 ? totalBought / budget : 0
   const overBudget = budget > 0 && ratio >= 1
   const nearBudget = budget > 0 && ratio >= 0.9 && ratio < 1
@@ -15,9 +16,10 @@ export function BudgetSummary({ total, totalBought, budget, itemCount, boughtCou
   // Mensagem personalizada conforme progresso
   function getProgressMessage() {
     if (allDone && hasSavings) {
+      const pct = Math.round((savings / budget) * 100)
       return userName
-        ? `${userName}, você economizou ${formatCurrency(savings)}! 🎉`
-        : `Você economizou ${formatCurrency(savings)}! 🎉`
+        ? `${userName}, você economizou ${formatCurrency(savings)} (${pct}% do orçamento)! 🎉`
+        : `Você economizou ${formatCurrency(savings)} (${pct}% do orçamento)! 🎉`
     }
     if (allDone) {
       return userName ? `Lista completa, ${userName}! Arrasou!` : 'Lista completa!'
@@ -65,6 +67,17 @@ export function BudgetSummary({ total, totalBought, budget, itemCount, boughtCou
               <span className={styles.extraLabel}>Orçamento</span>
               <span className={styles.extraValue}>{formatCurrency(budget)}</span>
             </div>
+            {topCategory && (
+              <>
+                <div className={styles.extraDivider} />
+                <div className={styles.extraBlock}>
+                  <span className={styles.extraLabel}>Maior gasto</span>
+                  <span className={styles.extraValue}>
+                    {CATEGORY_MAP[topCategory.cat]?.label ?? topCategory.cat}: {formatCurrency(topCategory.val)} ({topCategory.pct}%)
+                  </span>
+                </div>
+              </>
+            )}
           </div>
 
           <div className={styles.progressWrapper}>
@@ -89,7 +102,7 @@ export function BudgetSummary({ total, totalBought, budget, itemCount, boughtCou
         <span className={styles.itemsBadge}>
           {boughtCount}/{itemCount} {itemCount === 1 ? 'item' : 'itens'}
         </span>
-        {!(allDone && hasSavings) && (
+        {itemCount > 0 && !(allDone && hasSavings) && (
           <span className={styles.readyLabel}>Pronto para o caixa</span>
         )}
       </div>

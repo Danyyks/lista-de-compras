@@ -47,7 +47,7 @@ export default function App() {
 
   // --- Lista de compras e preços ---
   const { items, addItem, removeItem, toggleItem, editItem, clearBought, clearAll } = useShoppingList()
-  const { recordPrice, getLastPrice } = usePriceHistory()
+  const { recordPrice, getLastPrice, clearHistory } = usePriceHistory()
 
   // --- Configurações ---
   const [budget, setBudget] = useState(loadBudget)
@@ -172,6 +172,7 @@ export default function App() {
                   onSignOut={handleSignOut}
                   darkMode={darkMode}
                   onSetTheme={setDarkMode}
+                  onClearPriceHistory={clearHistory}
                 />
               : <Navigate to="/login" replace />
           }

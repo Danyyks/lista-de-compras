@@ -264,3 +264,31 @@
   border-color: var(--color-danger);
   box-shadow: var(--shadow-md);
 }
+
+/* ---- DADOS ---- */
+.dataSection {
+  width: 100%;
+  max-width: 320px;
+  margin-top: 8px;
+}
+
+.dangerBtn {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-danger);
+  background: transparent;
+  color: var(--color-danger);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.dangerBtn:hover {
+  background: var(--color-danger);
+  color: #ffffff;
+}

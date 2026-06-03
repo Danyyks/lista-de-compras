@@ -35,5 +35,10 @@ export function usePriceHistory() {
     return history[key] ?? null
   }
 
-  return { recordPrice, getLastPrice }
+  function clearHistory() {
+    setHistory({})
+    localStorage.removeItem(STORAGE_KEY)
+  }
+
+  return { recordPrice, getLastPrice, clearHistory }
 }

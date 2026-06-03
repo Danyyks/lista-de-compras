@@ -220,3 +220,11 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+.duplicateWarning {
+  font-size: 0.6rem;
+  color: var(--color-danger);
+  font-weight: 700;
+  font-family: var(--font-sans);
+  padding: 2px 4px;
+}

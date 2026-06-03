@@ -1,0 +1,76 @@
+/* Animações e estilos do carrinho — usados pelo Logo.jsx */
+
+.logo-word {
+  font-family: "Titan One", system-ui, sans-serif;
+  color: #241712;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-shadow: 3px 4px 0 #E8584A;
+  -webkit-font-smoothing: antialiased;
+}
+
+[data-theme="dark"] .logo-word {
+  color: #F5F0FF;
+  text-shadow: 3px 4px 0 rgba(232, 88, 74, 0.7);
+}
+
+/* ---- Dark mode: inverte as cores do carrinho para ficarem visíveis ---- */
+
+/* Traços (stroke) do carrinho: de preto para creme claro */
+[data-theme="dark"] .cart-bob path,
+[data-theme="dark"] .cart-bob line {
+  stroke: #EDE8FF;
+}
+
+/* Corpo do carrinho (polygon): cinza claro → roxo acinzentado claro */
+[data-theme="dark"] .cart-bob polygon {
+  fill: #A898C8;
+  stroke: #EDE8FF;
+}
+
+/* Sombra no chão */
+[data-theme="dark"] .cart-shadow {
+  fill: rgba(200, 180, 255, 0.12);
+}
+
+/* Olhos: branco esclerótica → fundo do dark */
+[data-theme="dark"] .cart-eyes ellipse {
+  fill: #EDE8FF;
+}
+[data-theme="dark"] .cart-eyes circle {
+  fill: #2a2240;
+}
+
+/* Rodas */
+[data-theme="dark"] .cart-wheel circle {
+  stroke: #EDE8FF;
+}
+[data-theme="dark"] .cart-wheel line {
+  stroke: #2a2240;
+}
+
+@keyframes logo-wheelspin {
+  to { transform: rotate(360deg); }
+}
+@keyframes logo-cartbob {
+  0%   { transform: translateY(0)    rotate(-1.6deg); }
+  50%  { transform: translateY(-6px) rotate(1.6deg); }
+  100% { transform: translateY(0)    rotate(-1.6deg); }
+}
+@keyframes logo-cartshadow {
+  0%, 100% { transform: scaleX(1);   opacity: .16; }
+  50%      { transform: scaleX(.82); opacity: .10; }
+}
+@keyframes logo-blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95%           { transform: scaleY(0.12); }
+}
+
+.cart-wheel  { animation: logo-wheelspin .72s linear infinite; }
+.cart-bob    { transform-box: fill-box; transform-origin: center bottom; animation: logo-cartbob .9s ease-in-out infinite; }
+.cart-shadow { transform-box: fill-box; transform-origin: center; animation: logo-cartshadow .9s ease-in-out infinite; }
+.cart-eyes   { transform-box: fill-box; transform-origin: center; animation: logo-blink 4.5s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-wheel, .cart-bob, .cart-shadow, .cart-eyes { animation: none; }
+}

@@ -9,6 +9,7 @@ export function Usuario({
   onSignOut,
   darkMode,
   onSetTheme,
+  onClearPriceHistory,
 }) {
   const fileInputRef = useRef(null);
 
@@ -260,7 +261,7 @@ export function Usuario({
                   />
                 </svg>
               </span>
-              <span className={styles.themeCardLabel}>Light Mode</span>
+              <span className={styles.themeCardLabel}>Claro</span>
             </button>
 
             <button
@@ -284,7 +285,7 @@ export function Usuario({
                   />
                 </svg>
               </span>
-              <span className={styles.themeCardLabel}>Dark Mode</span>
+              <span className={styles.themeCardLabel}>Escuro</span>
             </button>
 
             <button
@@ -319,9 +320,24 @@ export function Usuario({
                   />
                 </svg>
               </span>
-              <span className={styles.themeCardLabel}>Auto</span>
+              <span className={styles.themeCardLabel}>Automático</span>
             </button>
           </div>
+        </div>
+
+        {/* Dados */}
+        <div className={styles.dataSection}>
+          <p className={styles.appearanceTitle}>Dados</p>
+          <button
+            className={styles.dangerBtn}
+            onClick={() => {
+              if (window.confirm('Limpar histórico de preços? Não é possível desfazer.')) {
+                onClearPriceHistory()
+              }
+            }}
+          >
+            Limpar histórico de preços
+          </button>
         </div>
 
         {/* Agradecimento */}

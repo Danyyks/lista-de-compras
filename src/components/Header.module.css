@@ -197,3 +197,11 @@
 .budgetInput[type=number] {
   -moz-appearance: textfield;
 }
+
+.budgetError {
+  font-size: 0.6rem;
+  color: var(--color-danger);
+  font-weight: 700;
+  font-family: var(--font-sans);
+  padding: 0 4px;
+}

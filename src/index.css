@@ -1,6 +1,6 @@
 /* ============================================
    DESIGN SYSTEM — LISTINHA
-   Paleta pastel retro-moderna
+   Paleta moderna roxo médio
    ============================================ */
 
 *, *::before, *::after {
@@ -12,22 +12,24 @@
 :root {
   /* --- FONTES --- */
   --font-display: 'Playfair Display', Georgia, serif;
-  --font-sans:    'Nunito', system-ui, sans-serif;
+  --font-ui:      'Space Grotesk', 'Nunito', system-ui, sans-serif;
+  --font-sans:    'Space Grotesk', 'Nunito', system-ui, sans-serif;
   --font-mono:    'Space Mono', 'Courier New', monospace;
 
-  /* --- CORES: LIGHT MODE (pastel creme) --- */
-  --bg-primary:     #FFFCF8;
-  --bg-secondary:   #FFF8F2;
-  --bg-tertiary:    #F5EDE0;
-  --text-primary:   #4A3728;
-  --text-secondary: #9B8B7E;
-  --text-muted:     #C9B9AF;
-  --border-color:   #EBD9C9;
-  --shadow-color:   #D4BCE0;
+  /* --- CORES: LIGHT MODE (creme levemente roxeado) --- */
+  --bg-primary:     #F8F5FF;
+  --bg-secondary:   #F0EAFB;
+  --bg-tertiary:    #E8DEFF;
+  --text-primary:   #2D1F4A;
+  --text-secondary: #7A6A95;
+  --text-muted:     #B8A8D0;
+  --border-color:   #DDD0F0;
+  --shadow-color:   rgba(155,112,214,0.18);
 
-  /* Lavanda suave — cor principal */
-  --accent:         #C8A4D4;
-  --accent-hover:   #B090BE;
+  /* Roxo médio — cor principal */
+  --accent:         #9B70D6;
+  --accent-hover:   #7B50B6;
+  --accent-soft:    #EDE8FF;
 
   /* Status */
   --color-success:  #7fc8a9;
@@ -35,16 +37,16 @@
   --color-warning:  #f0a060;
   --color-info:     #9b87c4;
 
-  /* --- SOMBRAS RETRÔ (offset sólido stamp) --- */
-  --shadow-sm:    2px 2px 0px var(--shadow-color);
-  --shadow-md:    3px 3px 0px var(--shadow-color);
-  --shadow-lg:    4px 4px 0px var(--shadow-color);
-  --shadow-xl:    0 8px 32px rgba(200,164,212,0.15), 4px 4px 0px var(--shadow-color);
+  /* --- SOMBRAS DIFUSAS (moderno) --- */
+  --shadow-sm:    0 2px 8px  rgba(155,112,214,0.10);
+  --shadow-md:    0 4px 16px rgba(155,112,214,0.13);
+  --shadow-lg:    0 8px 28px rgba(155,112,214,0.16);
+  --shadow-xl:    0 16px 40px rgba(155,112,214,0.20);
 
-  /* --- BORDAS & RAIOS (mais arredondado) --- */
-  --radius:       14px;
-  --radius-sm:    10px;
-  --radius-lg:    22px;
+  /* --- BORDAS & RAIOS --- */
+  --radius:       16px;
+  --radius-sm:    12px;
+  --radius-lg:    26px;
   --radius-full:  9999px;
 
   /* --- TRANSIÇÃO --- */
@@ -58,7 +60,7 @@
   --cat-padaria:    #b08050;
   --cat-bebidas:    #7094c4;
   --cat-limpeza:    #9b87c4;
-  --cat-higiene:    #C8A4D4;
+  --cat-higiene:    #9B70D6;
   --cat-outros:     #9a9590;
   --cat-custom:     #7fc8a9;
 }
@@ -67,18 +69,19 @@
    DARK MODE — Roxo escuro harmonizado
    ============================================ */
 [data-theme="dark"] {
-  --bg-primary:     #1a1524;
-  --bg-secondary:   #231d30;
-  --bg-tertiary:    #2c2540;
+  --bg-primary:     #2a2240;
+  --bg-secondary:   #352a50;
+  --bg-tertiary:    #3e3360;
   --text-primary:   #F5F0FF;
   --text-secondary: #C0B0D8;
-  --text-muted:     #7a6a8a;
-  --border-color:   #3d3358;
-  --shadow-color:   rgba(0,0,0,0.55);
+  --text-muted:     #8a7aaa;
+  --border-color:   #504070;
+  --shadow-color:   rgba(0,0,0,0.45);
 
-  /* Lavanda — mesma cor no dark */
-  --accent:         #C8A4D4;
-  --accent-hover:   #D8B4E4;
+  /* Roxo mais luminoso no dark */
+  --accent:         #B990E8;
+  --accent-hover:   #CEB0F5;
+  --accent-soft:    #2c2050;
 
   /* Status dark */
   --color-success:  #8dd4b6;
@@ -87,10 +90,10 @@
   --color-info:     #b399d4;
 
   /* Sombras escuras */
-  --shadow-sm:    2px 2px 0px rgba(0,0,0,0.50);
-  --shadow-md:    3px 3px 0px rgba(0,0,0,0.55);
-  --shadow-lg:    4px 4px 0px rgba(0,0,0,0.60);
-  --shadow-xl:    0 8px 32px rgba(0,0,0,0.55), 4px 4px 0px rgba(0,0,0,0.50);
+  --shadow-sm:    0 2px 8px  rgba(0,0,0,0.30);
+  --shadow-md:    0 4px 16px rgba(0,0,0,0.40);
+  --shadow-lg:    0 8px 28px rgba(0,0,0,0.50);
+  --shadow-xl:    0 16px 40px rgba(0,0,0,0.55);
 }
 
 /* ============================================
@@ -101,7 +104,7 @@ html {
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
   background-color: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.5;
@@ -135,6 +138,22 @@ button {
 @keyframes pulse-over-budget {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.75; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.88); }
+  65%  { transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ============================================

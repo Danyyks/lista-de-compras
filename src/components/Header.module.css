@@ -26,22 +26,9 @@
   gap: 2px;
 }
 
-.title {
-  font-family: var(--font-display);
-  font-size: 1.9rem;
-  font-weight: 900;
-  color: var(--text-primary);
-  letter-spacing: 0.01em;
-  line-height: 1;
-}
-
-.titleDot {
-  color: var(--accent);
-}
-
 .userName {
   font-size: 0.68rem;
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
   font-weight: 700;
   color: var(--accent);
   text-align: left;

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { parsePrice } from "../utils/formatCurrency";
 import styles from "./Header.module.css";
+import { LogoHorizontal } from "./Logo";
 
 export function Header({
   budget,
@@ -46,9 +47,7 @@ export function Header({
       <div className={styles.top}>
         <div className={styles.titleGroup}>
           <div className={styles.titleStack}>
-            <h1 className={styles.title}>
-              Listinha<span className={styles.titleDot}>.</span>
-            </h1>
+            <LogoHorizontal fontSize={26} />
             {userName && (
               <button
                 className={styles.userName}

@@ -23,6 +23,7 @@ export function ListaCompras({
   budget,
   onBudgetChange,
   userName,
+  userPhoto,
 }) {
   const navigate = useNavigate()
   const [autoSort, setAutoSort] = useState(loadAutoSort)
@@ -80,6 +81,7 @@ export function ListaCompras({
         budget={budget}
         onBudgetChange={onBudgetChange}
         userName={userName}
+        userPhoto={userPhoto}
         onChangeName={() => navigate('/usuario')}
         autoSort={autoSort}
         onToggleAutoSort={() => setAutoSort(prev => !prev)}

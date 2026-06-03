@@ -1,5 +1,5 @@
 /* ==============================
-   USUARIO PAGE — Pastel Retro
+   USUARIO PAGE
    ============================== */
 
 .screen {
@@ -19,20 +19,6 @@
   gap: 20px;
 }
 
-/* Título */
-.pageTitle {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 900;
-  letter-spacing: 0.02em;
-  color: var(--text-primary);
-  text-align: center;
-}
-
-.pageTitleDot {
-  color: var(--accent);
-}
-
 /* ---- AVATAR ---- */
 .avatarSection {
   display: flex;
@@ -43,11 +29,11 @@
 }
 
 .avatarBtn {
-  width: 110px;
-  height: 110px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   border: 3px solid var(--accent);
-  box-shadow: 0 0 0 4px var(--bg-primary), 0 0 0 7px var(--border-color);
+  box-shadow: 0 0 0 4px var(--bg-secondary), 0 0 0 7px var(--border-color), var(--shadow-lg);
   background: var(--bg-tertiary);
   position: relative;
   overflow: hidden;
@@ -61,7 +47,7 @@
 }
 
 .avatarBtn:hover {
-  box-shadow: 0 0 0 4px var(--bg-primary), 0 0 0 7px var(--accent);
+  box-shadow: 0 0 0 4px var(--bg-secondary), 0 0 0 7px var(--accent), var(--shadow-lg);
 }
 
 .avatarBtn:hover .avatarOverlay {
@@ -96,11 +82,11 @@
 
 .avatarEditBadge {
   position: absolute;
-  bottom: 28px;
-  right: calc(50% - 55px - 4px);
+  bottom: 38px;
+  right: calc(50% - 60px - 4px);
   width: 28px;
   height: 28px;
-  background: linear-gradient(135deg, var(--accent), #F4B8C8);
+  background: linear-gradient(135deg, var(--accent), #CEB0F5);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -114,6 +100,7 @@
 
 .avatarEditBadge:hover {
   box-shadow: var(--shadow-md);
+  transform: scale(1.08);
 }
 
 .fileInput {
@@ -122,7 +109,7 @@
 
 .removePhoto {
   font-size: 0.66rem;
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
   font-weight: 700;
   color: var(--text-muted);
   transition: color var(--transition);
@@ -157,17 +144,17 @@
   background: var(--bg-primary);
   border-radius: var(--radius-lg);
   padding: 20px;
-  border: 2px solid var(--border-color);
+  border: 1.5px solid var(--border-color);
   box-shadow: var(--shadow-md);
 }
 
 .appearanceTitle {
   font-size: 0.62rem;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-muted);
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
 }
 
 .themeCards {
@@ -184,21 +171,22 @@
   gap: 12px;
   padding: 14px 16px;
   background: var(--bg-secondary);
-  border: 2px solid var(--border-color);
-  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius);
   cursor: pointer;
   transition: all var(--transition);
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
 }
 
 .themeCard:hover:not(.themeCardActive) {
   border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 .themeCardActive {
   background: var(--bg-primary);
   border-color: var(--accent);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm), 0 0 0 2px rgba(155,112,214,0.15);
 }
 
 .themeCardIcon {
@@ -215,25 +203,25 @@
 
 .themeCardLabel {
   font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   color: var(--text-secondary);
 }
 
 .themeCardActive .themeCardLabel {
   color: var(--accent);
+  font-weight: 700;
 }
 
 /* ---- AGRADECIMENTO ---- */
 .thanks {
   font-size: 0.65rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-muted);
   text-align: center;
-  font-family: var(--font-sans);
+  font-family: var(--font-ui);
 }
 
 .heart {
@@ -245,13 +233,13 @@
 /* ---- SAIR ---- */
 .signOut {
   font-size: 0.7rem;
-  font-weight: 800;
-  font-family: var(--font-sans);
+  font-weight: 700;
+  font-family: var(--font-ui);
   color: var(--text-muted);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 12px 28px;
-  border: 2px solid var(--border-color);
+  padding: 14px 28px;
+  border: 1.5px solid var(--border-color);
   border-radius: var(--radius-full);
   background: transparent;
   transition: all var(--transition);

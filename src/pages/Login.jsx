@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./Login.module.css";
+import { LogoHorizontal } from "../components/Logo";
 
 export function Login({ onEnter }) {
   const [name, setName] = useState("");
@@ -22,22 +23,10 @@ export function Login({ onEnter }) {
       <div className={styles.blobLavender} aria-hidden="true" />
 
       <div className={styles.card}>
-        {/* Logo stamp */}
+        {/* Logo */}
         <div className={styles.logoWrap}>
-          <img
-            src={`${import.meta.env.BASE_URL}icons/icon.svg`}
-            alt="Listinha logo"
-            className={styles.logoImg}
-          />
+          <LogoHorizontal fontSize={48} />
         </div>
-
-        {/* Título */}
-        <h1 className={styles.title}>
-          Listinha<span className={styles.titleDot}>.</span>
-        </h1>
-
-        {/* Underline tracejado */}
-        <div className={styles.titleUnderline} aria-hidden="true" />
 
         <p className={styles.subtitle}> SUA LISTA DE COMPRAS </p>
 

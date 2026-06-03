@@ -154,6 +154,7 @@ export default function App() {
                   budget={budget}
                   onBudgetChange={setBudget}
                   userName={userName}
+                  userPhoto={userPhoto}
                 />
               : <Navigate to="/login" replace />
           }

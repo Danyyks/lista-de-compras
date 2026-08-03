@@ -55,3 +55,28 @@ O servidor sobe em `http://localhost:5000`. Teste em
 - `firebase_setup.py` — inicializa o Firebase Admin SDK e o cliente do Firestore
 - `auth.py` — decorator que valida o token de login em cada rota protegida
 - `routes/` — um arquivo por grupo de rotas (perfil, itens, histórico de preço)
+- `api/index.py` + `vercel.json` — ponto de entrada usado só quando o backend roda como função serverless na Vercel (ver seção abaixo). Não interfere em nada ao rodar localmente com `python app.py`.
+
+## Deploy na Vercel
+
+Este backend está publicado como função serverless Python na própria Vercel
+(mesma plataforma do frontend), em um projeto separado. O que muda em relação
+a rodar localmente:
+
+1. **Credencial do Firebase vira variável de ambiente.** Não existe um
+   arquivo persistente numa função serverless, então em vez de
+   `FIREBASE_CREDENTIALS_PATH` (caminho do `.json`), configure
+   `FIREBASE_CREDENTIALS_JSON` com o **conteúdo inteiro** do arquivo
+   `serviceAccountKey.json` colado como texto. `firebase_setup.py` detecta
+   automaticamente qual das duas usar.
+2. **`FRONTEND_URL`** deve apontar para o domínio real do frontend em
+   produção (não `localhost`), senão o CORS bloqueia as chamadas.
+3. Passos pra publicar (a partir desta pasta `backend/`):
+   ```bash
+   vercel link                                            # conecta a um projeto Vercel (uma vez só)
+   vercel env add FIREBASE_CREDENTIALS_JSON production < serviceAccountKey.json
+   vercel env add FRONTEND_URL production                 # cole a URL do frontend quando pedir
+   vercel --prod
+   ```
+4. Depois, configure `VITE_API_URL` no projeto Vercel **do frontend** apontando
+   para a URL gerada aqui, e faça um novo deploy do frontend.

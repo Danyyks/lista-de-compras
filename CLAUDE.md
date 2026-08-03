@@ -19,7 +19,7 @@
 ```
 firebase.json            # aponta para firestore.rules
 firestore.rules          # regras de segurança do Firestore
-backend/                # API Flask (ver backend/README.md para setup)
+backend/                # API Flask (ver backend/README.md para setup e deploy)
   app.py                 # cria o app Flask, CORS, registra as rotas
   firebase_setup.py       # inicializa Firebase Admin SDK + cliente Firestore
   auth.py                  # decorator @login_required (valida o Bearer token)
@@ -27,6 +27,8 @@ backend/                # API Flask (ver backend/README.md para setup)
     profile_routes.py        # GET/PUT /api/profile
     items_routes.py           # CRUD /api/items
     price_history_routes.py    # GET/POST/DELETE /api/price-history
+  api/index.py            # ponto de entrada só usado pelo deploy serverless na Vercel
+  vercel.json              # config do deploy serverless do backend
 src/
   App.jsx               # Orquestra estado global, handlers e rotas
   App.css               # Estilos do layout da app
@@ -98,8 +100,9 @@ Endpoints da API estão documentados nos comentários de cada arquivo em `backen
 - Como só o backend acessa o Firestore (via Admin SDK, que ignora essas regras), elas ficam fechadas (`allow read, write: if false`) como segunda camada de proteção
 
 ## Deploy
-- Frontend: Vercel (configuração em `vercel.json`) — lembrar de configurar as variáveis `VITE_FIREBASE_*` e `VITE_API_URL` no painel do projeto
-- Backend: qualquer serviço que rode Python (Render, Railway, etc.) — não incluso neste repositório por padrão, ver `backend/README.md`. Ao publicar, definir `FRONTEND_URL` (domínio real do frontend) e manter `FLASK_DEBUG` desligado
+- **Frontend**: Vercel, projeto `listinha` (https://listinha-mu.vercel.app) — configuração em `vercel.json`, variáveis `VITE_FIREBASE_*` e `VITE_API_URL` no painel do projeto
+- **Backend**: Vercel também, mas como projeto separado, `listinha-api` (https://listinha-api-delta.vercel.app), rodando como função Python serverless — configuração em `backend/vercel.json` + `backend/api/index.py`. Detalhes de como publicar em `backend/README.md`
+- Domínio de produção do frontend precisa estar em **Firebase Console → Authentication → Settings → Domínios autorizados**, senão o login com Google falha
 
 ## Segurança
 - Toda rota que lê/escreve dados exige `@login_required` (`backend/auth.py`), que valida o token do Firebase e rejeita sessões revogadas (`check_revoked=True`)

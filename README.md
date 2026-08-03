@@ -1,57 +1,54 @@
 <h1>
-  <img src="public/icons/icon.svg" width="38" align="center" alt="Listinha"> Listinha
+  <img src="public/favicon.svg" width="38" align="center" alt="Listinha"> Listinha
 </h1>
 
-App de lista de compras para o celular — sem papel, sem cadastro, sem internet. Você monta a lista antes de sair, marca os itens no mercado e acompanha o gasto em tempo real.
+Lista de compras para o celular. Sem papel, sem perder no fundo da bolsa, sem esquecer em casa.
 
-Demo: https://lista-de-compras-dany.vercel.app
+**Demo:** https://lista-de-compras-dany.vercel.app
 
 ---
 
-## O projeto
+## A ideia
 
-Toda semana o mesmo problema: chegar no mercado sem lista, comprar o que não precisava e esquecer o que precisava. Os apps disponíveis tinham conta, sincronização em nuvem e funcionalidades que eu nunca ia usar.
+Comecei a fazer esse app pra resolver um problema meu mesmo: eu sempre esquecia a lista de compras em casa ou perdia o papelzinho no meio do mercado. Comentei isso com umas amigas e descobri que elas viviam reclamando da mesma coisa — sempre no papel, sempre perdendo, sempre esquecendo.
 
-Resolvi construir o meu: sem cadastro, sem backend, sem mensalidade. Tudo salvo no próprio dispositivo via localStorage. O resultado é um PWA instalável que uso no dia a dia para planejar as compras, controlar o gasto e não precisar mais do papel.
+Aí resolvi juntar as duas coisas: uma desculpa boa pra programar algo do zero e uma solução real pra um problema que várias pessoas próximas de mim tinham. Nasceu o Listinha — simples o bastante pra qualquer uma delas usar sem pensar duas vezes, e completo o bastante pra realmente substituir o papel.
 
 ---
 
 ## Telas
 
 <div align="center">
-  <img src="fotosReadme/Captura%20de%20tela%202026-06-03%20135758.png" width="192" alt="Lista vazia">
+  <img src="assets/login.png" width="160" alt="Login com Google">
   &nbsp;
-  <img src="fotosReadme/Captura%20de%20tela%202026-06-03%20135919.png" width="192" alt="Lista com itens">
+  <img src="assets/lista.png" width="160" alt="Lista com itens e orçamento">
   &nbsp;
-  <img src="fotosReadme/Captura%20de%20tela%202026-06-03%20140020.png" width="192" alt="Lista completa com orçamento">
-  &nbsp;
-  <img src="fotosReadme/Captura%20de%20tela%202026-06-03%20135851.png" width="192" alt="Perfil e aparência">
+  <img src="assets/perfil.png" width="160" alt="Perfil e aparência">
 </div>
 
 ---
 
-## Funcionalidades
+## O que dá pra fazer
 
-**Lista de compras**
-Adicione produtos por nome e escolha a categoria. Os itens ficam organizados automaticamente por grupo — hortifruti, laticínios, limpeza, e por aí vai.
+- **Montar a lista** por nome e categoria, já organizada por grupo (hortifruti, limpeza, laticínios...)
+- **Definir quantidade e preço** de cada item, com o total calculado na hora
+- **Acompanhar o orçamento** — o app avisa quanto já foi gasto e quanto ainda sobra
+- **Marcar no modo de compra**, separando o que já foi pego do que ainda falta
+- **Lembrar o último preço** de cada produto, sugerindo o valor da próxima vez
+- **Trocar o tema** entre claro, escuro ou automático (segue o horário do dia)
+- **Entrar com a conta Google**, sem senha pra criar ou lembrar
 
-**Quantidade e preço**
-Defina quantas unidades quer de cada item e qual o preço. O total da lista é calculado em tempo real conforme você adiciona ou ajusta os produtos.
+---
 
-**Orçamento**
-Defina quanto quer gastar. O app mostra quanto você já comprometeu, quanto sobra, e celebra quando você termina a lista dentro do limite.
+## Como foi construído
 
-**Modo de compras**
-Marque os itens conforme coloca no carrinho. Os produtos marcados ficam separados dos pendentes para você não perder o fio da meada no mercado.
+O projeto é dividido em duas partes que conversam por uma API:
 
-**Memória de preços**
-O app registra o último preço de cada produto. Na próxima vez que você adicionar o mesmo item, ele já sugere o valor automaticamente.
+- **Frontend em React**, hospedado na Vercel — é o que você usa no celular
+- **Backend em Python (Flask)**, propositalmente simples e comentado — só ele fala com o banco de dados
+- **Firebase** cuidando do login (Google) e do banco (Firestore), então a lista te acompanha em qualquer aparelho
 
-**Aparência**
-Tema claro, escuro ou automático. No modo automático, o app muda sozinho dependendo do horário do dia — escuro à noite, claro de dia.
-
-**PWA**
-Instalável como app nativo na tela inicial do celular. Funciona sem internet depois de carregado.
+Fiz questão de manter o backend enxuto e bem comentado — é também o material que uso pra estudar e ensinar como uma API do zero funciona, sem framework escondendo a lógica.
 
 ---
 
@@ -59,52 +56,34 @@ Instalável como app nativo na tela inicial do celular. Funciona sem internet de
 
 | Camada | Tecnologia |
 |---|---|
-| Framework | React 19 + Vite 6 |
-| Roteamento | React Router DOM com HashRouter |
+| Frontend | React 19 + Vite |
+| Roteamento | React Router (HashRouter) |
 | Estilização | CSS Modules |
-| Persistência | localStorage (sem backend) |
-| PWA | vite-plugin-pwa |
-| Deploy | Vercel |
-
-O design usa um sistema próprio — roxo médio como cor primária, tipografia com Titan One e Space Grotesk, tokens de cor definidos em `src/index.css` com suporte a dark e light mode.
-
----
-
-## Estrutura
-
-```
-src/
-  App.jsx               — estado global, handlers e rotas
-  index.css             — CSS variables, reset global, dark/light mode
-  components/           — componentes reutilizáveis (Header, BottomNav, Logo...)
-  hooks/                — lógica de estado (useItems, useBudget, useTheme...)
-  pages/
-    Login.jsx           — entrada do nome do usuário
-    ListaCompras.jsx    — página principal da lista
-    Usuario.jsx         — perfil, foto, tema, sign out
-  utils/
-    categories.js       — mapa de categorias com label e cor
-    formatCurrency.js   — formatação BRL
-```
+| Backend | Python + Flask |
+| Login | Firebase Auth (Google) |
+| Banco de dados | Firestore |
+| Deploy | Vercel (frontend) |
 
 ---
 
 ## Rodando localmente
 
+O projeto tem duas partes: **backend** (Flask) e **frontend** (React). O passo a passo completo de configuração do Firebase (criar projeto, ativar login, gerar chaves) está em [`backend/README.md`](backend/README.md).
+
 ```bash
 git clone https://github.com/Danyyks/lista-de-compras
 cd lista-de-compras
+
+# Backend
+cd backend
+pip install -r requirements.txt
+python app.py          # http://localhost:5000
+
+# Frontend (em outro terminal, na raiz do projeto)
 npm install
-npm run dev
-# http://localhost:5173
-```
-
-Para gerar a versão de produção:
-
-```bash
-npm run build
+npm run dev             # http://localhost:5173
 ```
 
 ---
 
-Feito por Dany Jonathan Bueno
+Feito por Dany Jonathan Bueno, pra mim e pras minhas amigas — se ajudar mais alguém pelo caminho, melhor ainda.

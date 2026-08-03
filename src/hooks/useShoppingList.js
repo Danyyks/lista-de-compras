@@ -1,64 +1,51 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { api } from '../services/api'
 
-const STORAGE_KEY = 'shopping-list-items'
+// Gerencia a lista de compras chamando a API Flask (que guarda tudo no
+// Firestore). A interface exposta (items, addItem, removeItem, ...) é a
+// mesma de antes, quando tudo vivia no localStorage — só troca "onde"
+// os dados moram por baixo dos panos.
+export function useShoppingList(user) {
+  const [items, setItems] = useState([])
 
-function loadItems() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? JSON.parse(raw) : []
-  } catch {
-    return []
-  }
-}
-
-export function useShoppingList() {
-  const [items, setItems] = useState(loadItems)
-
-  // Persiste no localStorage sempre que a lista mudar
+  // Busca os itens do usuário assim que ele faz login (ou esvazia a lista
+  // no logout). As duas situações passam pelo mesmo ".then(setItems)".
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
-  }, [items])
+    const load = user ? api.get('/api/items') : Promise.resolve([])
+    load.then(setItems)
+  }, [user])
 
-  function addItem({ name, category = 'outros', price = 0, quantity = 1 }) {
-    const newItem = {
-      id: crypto.randomUUID(),
-      name: name.trim(),
-      category,
-      price,
-      quantity,
-      bought: false,
-      createdAt: Date.now(),
-    }
+  async function addItem({ name, category = 'outros', price = 0, quantity = 1 }) {
+    const newItem = await api.post('/api/items', { name, category, price, quantity })
     setItems(prev => [...prev, newItem])
     return newItem
   }
 
-  function removeItem(id) {
+  async function removeItem(id) {
     setItems(prev => prev.filter(item => item.id !== id))
+    await api.del(`/api/items/${id}`)
   }
 
-  function toggleItem(id) {
-    setItems(prev =>
-      prev.map(item =>
-        item.id === id ? { ...item, bought: !item.bought } : item
-      )
-    )
+  async function toggleItem(id) {
+    const current = items.find(item => item.id === id)
+    if (!current) return
+    const updated = await api.put(`/api/items/${id}`, { bought: !current.bought })
+    setItems(prev => prev.map(item => (item.id === id ? updated : item)))
   }
 
-  function editItem(id, changes) {
-    setItems(prev =>
-      prev.map(item =>
-        item.id === id ? { ...item, ...changes } : item
-      )
-    )
+  async function editItem(id, changes) {
+    const updated = await api.put(`/api/items/${id}`, changes)
+    setItems(prev => prev.map(item => (item.id === id ? updated : item)))
   }
 
-  function clearBought() {
+  async function clearBought() {
     setItems(prev => prev.filter(item => !item.bought))
+    await api.post('/api/items/clear-bought')
   }
 
-  function clearAll() {
+  async function clearAll() {
     setItems([])
+    await api.post('/api/items/clear-all')
   }
 
   return { items, addItem, removeItem, toggleItem, editItem, clearBought, clearAll }

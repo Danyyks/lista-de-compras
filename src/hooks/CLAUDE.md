@@ -1,24 +1,45 @@
 # Hooks
 
-## useShoppingList
-Gerencia a lista de itens com persistência em localStorage.
+Todos os hooks abaixo (exceto `useAuth`) só buscam dados da API quando
+existe um usuário logado — recebem o `user` do Firebase Auth como parâmetro.
+
+## useAuth
+Login com Google via Firebase Auth. Substitui o antigo `useUser`.
+
+Retorna:
+- `user` → objeto do Firebase (`uid`, `displayName`, `photoURL`, `email`) ou `null`
+- `isLoading` → true enquanto o Firebase ainda não respondeu se há sessão salva
+- `signInWithGoogle()` → abre o popup de login
+- `signOut()` → encerra a sessão
+
+## useProfile(user)
+Orçamento e tema do usuário, via `GET/PUT /api/profile`. Cria o perfil
+automaticamente no backend no primeiro login (get-or-create).
+
+Retorna:
+- `budget: number | null`, `setBudget(valor)`
+- `theme: "light" | "dark" | "auto"`, `setTheme(valor)`
+- `isLoading`
+
+## useShoppingList(user)
+Gerencia a lista de itens chamando a API (`/api/items`).
 
 Retorna:
 - `items: Item[]`
-- `addItem({ name, category, price, quantity? })` → cria item com UUID e `bought: false`
-- `removeItem(id)`
-- `toggleItem(id)` → inverte `bought`
-- `editItem(id, changes)` → merge parcial
-- `clearBought()` → remove todos os itens com `bought: true`
+- `addItem({ name, category, price, quantity? })` → `POST /api/items`
+- `removeItem(id)` → `DELETE /api/items/:id`
+- `toggleItem(id)` → inverte `bought` via `PUT /api/items/:id`
+- `editItem(id, changes)` → merge parcial via `PUT /api/items/:id`
+- `clearBought()` → `POST /api/items/clear-bought`
+- `clearAll()` → `POST /api/items/clear-all`
 
-Chave localStorage: `shopping-list-items`
+O backend já atualiza o histórico de preços automaticamente quando um item
+é salvo com preço maior que zero — não é preciso chamar nada manualmente.
 
-## usePriceHistory
-Armazena o último preço pago por nome de item.
+## usePriceHistory(user)
+Último preço pago por nome de item, via `/api/price-history`.
 
 Retorna:
-- `recordPrice(name, price)` → salva no histórico (chave: nome normalizado)
-- `getLastPrice(name)` → retorna o último preço ou `null`
-
-Chave localStorage: `shopping-list-price-history`
-Normalização: `name.trim().toLowerCase()`
+- `recordPrice(name, price)` → registro manual (o automático já acontece no backend)
+- `getLastPrice(name)` → lookup **síncrono** num cache local em memória (buscado uma vez ao logar, para não gerar uma chamada de rede a cada tecla digitada)
+- `clearHistory()` → apaga todo o histórico

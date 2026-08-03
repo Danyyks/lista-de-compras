@@ -5,7 +5,10 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  // "backend" é o projeto Python — nunca deve ser analisado pelo ESLint
+  // (isso também evita lintar bibliotecas JS de terceiros vendorizadas
+  // dentro de backend/venv, como o debugger do Werkzeug).
+  globalIgnores(['dist', 'backend']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [

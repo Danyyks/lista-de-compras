@@ -1,5 +1,8 @@
 # Componentes
 
+> `PhotoCropper` foi removido: a foto de perfil agora vem pronta da conta
+> Google usada no login (somente leitura em `Usuario.jsx`).
+
 ## Header
 Props: `budget`, `onBudgetChange`, `darkMode`, `onToggleDarkMode`
 - Exibe título, botão de tema e input de orçamento (colapsável)

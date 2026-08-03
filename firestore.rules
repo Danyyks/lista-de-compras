@@ -1,0 +1,13 @@
+rules_version = '2';
+
+// Ninguém acessa o Firestore diretamente pelo navegador nesta app — toda
+// leitura/escrita passa pelo backend Flask, que usa o Firebase Admin SDK
+// (esse SDK ignora estas regras). Por isso aqui bloqueamos tudo: é uma
+// segunda camada de proteção, caso alguém tente acessar o banco direto.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

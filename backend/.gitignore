@@ -1,0 +1,11 @@
+# Segredos — nunca commitar
+.env
+serviceAccountKey.json
+# Qualquer outra chave baixada do Firebase, mesmo com nome diferente
+*firebase-adminsdk*.json
+
+# Ambiente virtual do Python
+venv/
+.venv/
+__pycache__/
+*.pyc

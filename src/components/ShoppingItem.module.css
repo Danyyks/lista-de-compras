@@ -102,9 +102,10 @@
   font-size: 0.9rem;
   color: var(--text-primary);
   cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* Deixa o nome quebrar em várias linhas em vez de cortar com "..." */
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
   display: block;
   border-radius: var(--radius-sm);
   padding: 1px 3px;

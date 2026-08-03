@@ -37,21 +37,11 @@
   background: var(--bg-tertiary);
   position: relative;
   overflow: hidden;
-  cursor: pointer;
-  transition: box-shadow var(--transition);
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-muted);
-}
-
-.avatarBtn:hover {
-  box-shadow: 0 0 0 4px var(--bg-secondary), 0 0 0 7px var(--accent), var(--shadow-lg);
-}
-
-.avatarBtn:hover .avatarOverlay {
-  opacity: 1;
 }
 
 .avatarImg {
@@ -65,61 +55,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.avatarOverlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  opacity: 0;
-  transition: opacity var(--transition);
-  border-radius: 50%;
-}
-
-.avatarEditBadge {
-  position: absolute;
-  bottom: 38px;
-  right: calc(50% - 60px - 4px);
-  width: 28px;
-  height: 28px;
-  background: linear-gradient(135deg, var(--accent), #CEB0F5);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  cursor: pointer;
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition);
-  border: 2px solid var(--bg-secondary);
-}
-
-.avatarEditBadge:hover {
-  box-shadow: var(--shadow-md);
-  transform: scale(1.08);
-}
-
-.fileInput {
-  display: none;
-}
-
-.removePhoto {
-  font-size: 0.66rem;
-  font-family: var(--font-ui);
-  font-weight: 700;
-  color: var(--text-muted);
-  transition: color var(--transition);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: underline;
-}
-
-.removePhoto:hover {
-  color: var(--color-danger);
 }
 
 /* ---- NOME ---- */

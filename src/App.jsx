@@ -1,127 +1,108 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
+import { useAuth } from './hooks/useAuth'
+import { useProfile } from './hooks/useProfile'
 import { useShoppingList } from './hooks/useShoppingList'
 import { usePriceHistory } from './hooks/usePriceHistory'
-import { useUser } from './hooks/useUser'
 import { Login } from './pages/Login'
 import { ListaCompras } from './pages/ListaCompras'
 import { Usuario } from './pages/Usuario'
 import { BottomNav } from './components/BottomNav'
-
-// Lê o orçamento salvo no localStorage
-function loadBudget() {
-  const raw = localStorage.getItem('shopping-list-budget')
-  return raw ? parseFloat(raw) : null
-}
-
-// Lê o tema salvo: true = escuro, false = claro, null = automático
-function loadDarkMode() {
-  const raw = localStorage.getItem('shopping-list-dark-mode')
-  if (raw === 'true') return true
-  if (raw === 'false') return false
-  return null
-}
 
 function isNightTime() {
   const hour = new Date().getHours()
   return hour >= 18 || hour < 6
 }
 
+// O tema é guardado no backend como texto ("light"/"dark"/"auto"), mas os
+// componentes de UI (Usuario.jsx) já usavam booleano/null (true=escuro,
+// false=claro, null=automático) — essas duas funções fazem a conversão
+// nos dois sentidos, para não precisar mexer nesses componentes.
+function themeToDarkMode(theme) {
+  if (theme === 'dark') return true
+  if (theme === 'light') return false
+  return null
+}
+
+function darkModeToTheme(darkMode) {
+  if (darkMode === true) return 'dark'
+  if (darkMode === false) return 'light'
+  return 'auto'
+}
+
 function getEffectiveDarkMode(darkMode) {
-  if (darkMode === null || darkMode === undefined) {
-    return isNightTime()
-  }
+  if (darkMode === null || darkMode === undefined) return isNightTime()
   return darkMode
 }
 
 export default function App() {
   const navigate = useNavigate()
 
-  // --- Dados do usuário ---
-  const {
-    userName, saveName,
-    userPhoto, savePhoto, removePhoto,
-    hasSeenProfile, markProfileSeen,
-    clearUser,
-  } = useUser()
+  // --- Login (Firebase Auth, com Google) ---
+  const { user, isLoading: authLoading, signInWithGoogle, signOut } = useAuth()
 
-  // --- Lista de compras e preços ---
-  const { items, addItem, removeItem, toggleItem, editItem, clearBought, clearAll } = useShoppingList()
-  const { recordPrice, getLastPrice, clearHistory } = usePriceHistory()
+  // --- Perfil: orçamento e tema, guardados no backend ---
+  const { budget, setBudget, theme, setTheme } = useProfile(user)
+  const darkMode = themeToDarkMode(theme)
 
-  // --- Configurações ---
-  const [budget, setBudget] = useState(loadBudget)
-  const [darkMode, setDarkMode] = useState(loadDarkMode)
+  // --- Lista de compras e histórico de preços, guardados no backend ---
+  const { items, addItem, removeItem, toggleItem, editItem, clearBought, clearAll } = useShoppingList(user)
+  const { getLastPrice, clearHistory } = usePriceHistory(user)
 
-  // Aplica o tema no HTML e salva no localStorage
+  // Nome e foto agora vêm prontos da conta Google usada no login.
+  const userName = user?.displayName ?? null
+  const userPhoto = user?.photoURL ?? null
+
+  // Aplica o tema efetivo no <html> sempre que ele mudar
   useEffect(() => {
     const effective = getEffectiveDarkMode(darkMode)
     document.documentElement.setAttribute('data-theme', effective ? 'dark' : 'light')
-    localStorage.setItem('shopping-list-dark-mode', darkMode === null ? 'auto' : String(darkMode))
   }, [darkMode])
 
-  // Atualiza o tema automaticamente conforme o horário quando está no modo automático
+  // No modo automático, reavalia o horário a cada minuto
   useEffect(() => {
     if (darkMode !== null && darkMode !== undefined) return
     function applyTimeTheme() {
       document.documentElement.setAttribute('data-theme', isNightTime() ? 'dark' : 'light')
     }
     applyTimeTheme()
-    // Verifica a cada minuto se o horário mudou
     const interval = setInterval(applyTimeTheme, 60 * 1000)
     return () => clearInterval(interval)
   }, [darkMode])
 
-  // Salva o orçamento no localStorage
-  useEffect(() => {
-    if (budget !== null) {
-      localStorage.setItem('shopping-list-budget', String(budget))
-    } else {
-      localStorage.removeItem('shopping-list-budget')
-    }
-  }, [budget])
-
   // --- Handlers ---
 
-  function handleEnterApp(name) {
-    saveName(name)
-    // Primeira vez: vai para o perfil. Depois: vai direto para a lista.
-    if (hasSeenProfile) {
-      navigate('/lista')
-    } else {
-      navigate('/usuario')
-    }
+  // Abre o popup de login do Google e, assim que resolver, vai para a lista.
+  // Não existe mais fluxo de "primeira vez" — nome e foto já vêm do Google.
+  async function handleSignIn() {
+    await signInWithGoogle()
+    navigate('/lista')
   }
 
-  function handleSignOut() {
-    clearUser()
+  async function handleSignOut() {
+    await signOut()
     navigate('/login')
   }
 
-  function handleAddItem(draft) {
-    addItem(draft)
-    if (draft.price > 0) recordPrice(draft.name, draft.price)
-  }
-
-  function handleEditItem(id, changes) {
-    editItem(id, changes)
-    if (changes.price !== undefined && changes.price > 0) {
-      const item = items.find(i => i.id === id)
-      if (item) recordPrice(changes.name ?? item.name, changes.price)
-    }
-  }
-
+  // Regra de negócio: apagar a lista inteira também zera o orçamento.
   function handleClearAll() {
     clearAll()
     setBudget(null)
   }
 
   function handleNavigateToLista() {
-    markProfileSeen()
     navigate('/lista')
   }
 
-  const effectiveDarkMode = getEffectiveDarkMode(darkMode)
+  // Converte o booleano/null que vem de Usuario.jsx de volta pro texto
+  // que o backend espera antes de salvar.
+  function handleSetTheme(darkModeValue) {
+    setTheme(darkModeToTheme(darkModeValue))
+  }
+
+  // Enquanto o Firebase ainda não respondeu se já existe uma sessão salva,
+  // evita mostrar a tela de login por um instante antes de redirecionar.
+  if (authLoading) return null
 
   // --- Rotas ---
   return (
@@ -131,9 +112,9 @@ export default function App() {
         <Route
           path="/login"
           element={
-            userName
+            user
               ? <Navigate to="/lista" replace />
-              : <Login onEnter={handleEnterApp} />
+              : <Login onEnter={handleSignIn} />
           }
         />
 
@@ -141,13 +122,13 @@ export default function App() {
         <Route
           path="/lista"
           element={
-            userName
+            user
               ? <ListaCompras
                   items={items}
-                  onAddItem={handleAddItem}
+                  onAddItem={addItem}
                   onRemoveItem={removeItem}
                   onToggleItem={toggleItem}
-                  onEditItem={handleEditItem}
+                  onEditItem={editItem}
                   onClearBought={clearBought}
                   onClearAll={handleClearAll}
                   getLastPrice={getLastPrice}
@@ -164,15 +145,13 @@ export default function App() {
         <Route
           path="/usuario"
           element={
-            userName
+            user
               ? <Usuario
                   userName={userName}
                   userPhoto={userPhoto}
-                  onSavePhoto={savePhoto}
-                  onRemovePhoto={removePhoto}
                   onSignOut={handleSignOut}
                   darkMode={darkMode}
-                  onSetTheme={setDarkMode}
+                  onSetTheme={handleSetTheme}
                   onClearPriceHistory={clearHistory}
                 />
               : <Navigate to="/login" replace />
@@ -182,12 +161,12 @@ export default function App() {
         {/* Qualquer URL desconhecida redireciona para o lugar certo */}
         <Route
           path="*"
-          element={<Navigate to={userName ? '/lista' : '/login'} replace />}
+          element={<Navigate to={user ? '/lista' : '/login'} replace />}
         />
       </Routes>
 
       {/* Barra de navegação só aparece quando o usuário está logado */}
-      {userName && <BottomNav onNavigateToLista={handleNavigateToLista} />}
+      {user && <BottomNav onNavigateToLista={handleNavigateToLista} />}
     </>
   )
 }

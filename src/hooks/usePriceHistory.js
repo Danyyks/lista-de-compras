@@ -1,32 +1,29 @@
-import { useState, useEffect } from 'react'
-
-const STORAGE_KEY = 'shopping-list-price-history'
-
-function loadHistory() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? JSON.parse(raw) : {}
-  } catch {
-    return {}
-  }
-}
+import { useEffect, useState } from 'react'
+import { api } from '../services/api'
 
 // Normaliza o nome para usar como chave (minúsculas, sem espaços extras)
 function normalizeKey(name) {
   return name.trim().toLowerCase()
 }
 
-export function usePriceHistory() {
-  const [history, setHistory] = useState(loadHistory)
+// Guarda o último preço pago por nome de item, consultando a API Flask.
+//
+// getLastPrice precisa continuar SÍNCRONO (é chamado a cada tecla digitada
+// no formulário de novo item) — por isso buscamos o histórico inteiro uma
+// única vez, ao logar, e guardamos num cache local em memória.
+export function usePriceHistory(user) {
+  const [history, setHistory] = useState({})
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(history))
-  }, [history])
+    const load = user ? api.get('/api/price-history') : Promise.resolve({})
+    load.then(setHistory)
+  }, [user])
 
-  function recordPrice(name, price) {
+  async function recordPrice(name, price) {
     if (!name || price <= 0) return
     const key = normalizeKey(name)
     setHistory(prev => ({ ...prev, [key]: price }))
+    await api.post('/api/price-history', { name, price })
   }
 
   function getLastPrice(name) {
@@ -35,9 +32,9 @@ export function usePriceHistory() {
     return history[key] ?? null
   }
 
-  function clearHistory() {
+  async function clearHistory() {
     setHistory({})
-    localStorage.removeItem(STORAGE_KEY)
+    await api.del('/api/price-history')
   }
 
   return { recordPrice, getLastPrice, clearHistory }

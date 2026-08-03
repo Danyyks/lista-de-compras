@@ -2,7 +2,7 @@
 
 Lista de compras para o celular. Sem papel, sem perder no fundo da bolsa, sem esquecer em casa.
 
-**Demo:** https://lista-de-compras-dany.vercel.app
+**Demo:** https://listinha-mu.vercel.app
 
 ---
 

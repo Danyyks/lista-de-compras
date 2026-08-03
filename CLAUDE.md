@@ -103,6 +103,7 @@ Endpoints da API estão documentados nos comentários de cada arquivo em `backen
 - **Frontend**: Vercel, projeto `listinha` (https://listinha-mu.vercel.app) — configuração em `vercel.json`, variáveis `VITE_FIREBASE_*` e `VITE_API_URL` no painel do projeto
 - **Backend**: Vercel também, mas como projeto separado, `listinha-api` (https://listinha-api-delta.vercel.app), rodando como função Python serverless — configuração em `backend/vercel.json` + `backend/api/index.py`. Detalhes de como publicar em `backend/README.md`
 - Domínio de produção do frontend precisa estar em **Firebase Console → Authentication → Settings → Domínios autorizados**, senão o login com Google falha
+- `public/sw.js` — **não é um service worker de verdade**, é um "matador" do service worker do PWA antigo (removido nessa migração). Quem instalou o app antes continuaria preso na versão em cache pra sempre sem isso; esse arquivo limpa o cache antigo, se desregistra e recarrega a página. Pode ser removido depois que não houver mais instalações antigas por aí (ex: alguns meses)
 
 ## Segurança
 - Toda rota que lê/escreve dados exige `@login_required` (`backend/auth.py`), que valida o token do Firebase e rejeita sessões revogadas (`check_revoked=True`)

@@ -1,6 +1,4 @@
-<h1>
-  <img src="public/favicon.svg" width="38" align="center" alt="Listinha"> Listinha
-</h1>
+<img src="assets/logo.png" width="240" alt="Listinha">
 
 Lista de compras para o celular. Sem papel, sem perder no fundo da bolsa, sem esquecer em casa.
 
@@ -54,15 +52,15 @@ Fiz questão de manter o backend enxuto e bem comentado — é também o materia
 
 ## Stack
 
-| Camada | Tecnologia |
-|---|---|
-| Frontend | React 19 + Vite |
-| Roteamento | React Router (HashRouter) |
-| Estilização | CSS Modules |
-| Backend | Python + Flask |
-| Login | Firebase Auth (Google) |
-| Banco de dados | Firestore |
-| Deploy | Vercel (frontend) |
+| Camada         | Tecnologia                |
+| -------------- | ------------------------- |
+| Frontend       | React 19 + Vite           |
+| Roteamento     | React Router (HashRouter) |
+| Estilização    | CSS Modules               |
+| Backend        | Python + Flask            |
+| Login          | Firebase Auth (Google)    |
+| Banco de dados | Firestore                 |
+| Deploy         | Vercel (frontend)         |
 
 ---
 
@@ -85,5 +83,3 @@ npm run dev             # http://localhost:5173
 ```
 
 ---
-
-Feito por Dany Jonathan Bueno, pra mim e pras minhas amigas — se ajudar mais alguém pelo caminho, melhor ainda.

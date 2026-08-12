@@ -17,11 +17,7 @@ Aí resolvi juntar as duas coisas: uma desculpa boa pra programar algo do zero e
 ## Telas
 
 <div align="center">
-  <img src="assets/login.png" width="160" alt="Login com Google">
-  &nbsp;
-  <img src="assets/lista.png" width="160" alt="Lista com itens e orçamento">
-  &nbsp;
-  <img src="assets/perfil.png" width="160" alt="Perfil e aparência">
+  <img src="assets/print_github.png" width="600" alt="Listinha em uso">
 </div>
 
 ---

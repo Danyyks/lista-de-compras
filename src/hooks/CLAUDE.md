@@ -3,6 +3,13 @@
 Todos os hooks abaixo (exceto `useAuth`) só buscam dados da API quando
 existe um usuário logado — recebem o `user` do Firebase Auth como parâmetro.
 
+Toda ação que muda dados (`addItem`, `removeItem`, `toggleItem`, `editItem`,
+`clearBought`, `clearAll`, `setBudget`, `setTheme`, `recordPrice`,
+`clearHistory`) atualiza a tela imediatamente, sem esperar a API responder
+(otimista). Se a chamada falhar, o próprio hook desfaz a mudança local
+(volta ao estado anterior) e relança o erro — quem chamou pode capturar com
+try/catch pra mostrar algo ao usuário, como já faz o `AddItemForm`.
+
 ## useAuth
 Login com Google via Firebase Auth. Substitui o antigo `useUser`.
 
@@ -19,7 +26,6 @@ automaticamente no backend no primeiro login (get-or-create).
 Retorna:
 - `budget: number | null`, `setBudget(valor)`
 - `theme: "light" | "dark" | "auto"`, `setTheme(valor)`
-- `isLoading`
 
 ## useShoppingList(user)
 Gerencia a lista de itens chamando a API (`/api/items`).

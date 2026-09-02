@@ -228,3 +228,11 @@
   font-family: var(--font-sans);
   padding: 2px 4px;
 }
+
+.errorMessage {
+  font-size: 0.72rem;
+  color: var(--color-danger);
+  font-weight: 700;
+  font-family: var(--font-sans);
+  margin: -6px 0 0;
+}

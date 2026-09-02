@@ -10,6 +10,8 @@ export function AddItemForm({ onAddItem, getLastPrice, existingNames }) {
   const [useCustomCategory, setUseCustomCategory] = useState(false);
   const [lastPrice, setLastPrice] = useState(null);
   const [duplicateWarning, setDuplicateWarning] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const trimmed = name.trim();
@@ -21,7 +23,7 @@ export function AddItemForm({ onAddItem, getLastPrice, existingNames }) {
     }
   }, [name, getLastPrice]);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const trimmedName = name.trim();
     if (!trimmedName) return;
@@ -36,14 +38,24 @@ export function AddItemForm({ onAddItem, getLastPrice, existingNames }) {
       ? customCategory.trim().toLowerCase() || "outros"
       : category;
 
-    onAddItem({
-      name: trimmedName,
-      category: resolvedCategory,
-      price: 0,
-    });
-
-    setName("");
-    setLastPrice(null);
+    setIsSubmitting(true);
+    setErrorMsg(null);
+    try {
+      await onAddItem({
+        name: trimmedName,
+        category: resolvedCategory,
+        price: 0,
+      });
+      // Só limpa o campo depois de confirmar que o item foi salvo —
+      // se limpasse antes, uma falha na API passaria despercebida
+      // (o campo já vazio dá a impressão de que deu tudo certo).
+      setName("");
+      setLastPrice(null);
+    } catch (err) {
+      setErrorMsg(err.message || "Não foi possível adicionar o item. Tente novamente.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -128,17 +140,19 @@ export function AddItemForm({ onAddItem, getLastPrice, existingNames }) {
         </div>
       </div>
 
+      {errorMsg && <p className={styles.errorMessage}>⚠️ {errorMsg}</p>}
+
       <button
         type="submit"
         className={styles.submitBtn}
-        disabled={!name.trim()}
+        disabled={!name.trim() || isSubmitting}
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
           <line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
           <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
         </svg>
-        Adicionar à Lista
+        {isSubmitting ? "Adicionando..." : "Adicionar à Lista"}
       </button>
     </form>
   );

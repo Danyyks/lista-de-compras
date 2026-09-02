@@ -24,18 +24,36 @@ export function useProfile(user) {
     })
   }, [user])
 
-  // Atualiza o orçamento no servidor e, se der certo, na tela.
+  // Atualiza o orçamento na tela e no servidor. Se a API falhar, desfaz a
+  // mudança local — senão o orçamento mostrado ficaria errado (fora de
+  // sincronia com o que está de fato salvo no Firestore).
   async function setBudget(value) {
+    const previous = budget
     setBudgetState(value)
-    await api.put('/api/profile', { budget: value })
+    try {
+      await api.put('/api/profile', { budget: value })
+    } catch (err) {
+      setBudgetState(previous)
+      console.error('Falha ao salvar orçamento:', err)
+      throw err
+    }
   }
 
-  // Atualiza o tema no servidor, na tela e no cache local (para o próximo
-  // carregamento da página já abrir com a cor certa, sem esperar a API).
+  // Atualiza o tema na tela, no cache local (pro próximo carregamento já
+  // abrir com a cor certa) e no servidor. Mesma lógica de rollback do
+  // orçamento caso a API falhe.
   async function setTheme(value) {
+    const previous = theme
     setThemeState(value)
     localStorage.setItem(THEME_CACHE_KEY, value)
-    await api.put('/api/profile', { theme: value })
+    try {
+      await api.put('/api/profile', { theme: value })
+    } catch (err) {
+      setThemeState(previous)
+      localStorage.setItem(THEME_CACHE_KEY, previous)
+      console.error('Falha ao salvar tema:', err)
+      throw err
+    }
   }
 
   return { budget, setBudget, theme, setTheme }

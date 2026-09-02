@@ -22,8 +22,15 @@ export function usePriceHistory(user) {
   async function recordPrice(name, price) {
     if (!name || price <= 0) return
     const key = normalizeKey(name)
+    const previous = history[key]
     setHistory(prev => ({ ...prev, [key]: price }))
-    await api.post('/api/price-history', { name, price })
+    try {
+      await api.post('/api/price-history', { name, price })
+    } catch (err) {
+      setHistory(prev => ({ ...prev, [key]: previous }))
+      console.error('Falha ao registrar histórico de preço:', err)
+      throw err
+    }
   }
 
   function getLastPrice(name) {
@@ -33,8 +40,15 @@ export function usePriceHistory(user) {
   }
 
   async function clearHistory() {
+    const previous = history
     setHistory({})
-    await api.del('/api/price-history')
+    try {
+      await api.del('/api/price-history')
+    } catch (err) {
+      setHistory(previous)
+      console.error('Falha ao limpar histórico de preços:', err)
+      throw err
+    }
   }
 
   return { recordPrice, getLastPrice, clearHistory }

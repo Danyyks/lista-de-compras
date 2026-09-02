@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { parsePrice } from "../utils/formatCurrency";
 import styles from "./Header.module.css";
 import { LogoHorizontal } from "./Logo";
@@ -19,13 +19,19 @@ export function Header({
   const [budgetInput, setBudgetInput] = useState(
     budget ? String(budget).replace(".", ",") : "",
   );
+  const [prevBudget, setPrevBudget] = useState(budget);
 
-  useEffect(() => {
+  // Ajusta o estado local quando o orçamento é zerado de fora (ex: "Nova
+  // lista"). Feito durante a renderização (não num useEffect) seguindo o
+  // padrão recomendado pelo React para "ajustar estado quando uma prop
+  // muda" — evita uma renderização extra desnecessária.
+  if (budget !== prevBudget) {
+    setPrevBudget(budget)
     if (budget === null) {
       setShowBudget(false)
       setBudgetInput("")
     }
-  }, [budget])
+  }
 
   function handleBudgetChange(e) {
     const raw = e.target.value

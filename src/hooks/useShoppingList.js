@@ -21,31 +21,68 @@ export function useShoppingList(user) {
     return newItem
   }
 
+  // Remove otimisticamente (some da tela na hora), mas se a API falhar
+  // (rede caiu, token expirou etc.) o item volta à lista — sem isso, uma
+  // falha silenciosa faria o item "sumir" no navegador mesmo continuando
+  // salvo no Firestore.
   async function removeItem(id) {
+    const removed = items.find(item => item.id === id)
     setItems(prev => prev.filter(item => item.id !== id))
-    await api.del(`/api/items/${id}`)
+    try {
+      await api.del(`/api/items/${id}`)
+    } catch (err) {
+      if (removed) setItems(prev => [...prev, removed])
+      console.error('Falha ao remover item:', err)
+      throw err
+    }
   }
 
   async function toggleItem(id) {
     const current = items.find(item => item.id === id)
     if (!current) return
-    const updated = await api.put(`/api/items/${id}`, { bought: !current.bought })
-    setItems(prev => prev.map(item => (item.id === id ? updated : item)))
+    try {
+      const updated = await api.put(`/api/items/${id}`, { bought: !current.bought })
+      setItems(prev => prev.map(item => (item.id === id ? updated : item)))
+    } catch (err) {
+      console.error('Falha ao marcar/desmarcar item:', err)
+      throw err
+    }
   }
 
   async function editItem(id, changes) {
-    const updated = await api.put(`/api/items/${id}`, changes)
-    setItems(prev => prev.map(item => (item.id === id ? updated : item)))
+    try {
+      const updated = await api.put(`/api/items/${id}`, changes)
+      setItems(prev => prev.map(item => (item.id === id ? updated : item)))
+    } catch (err) {
+      console.error('Falha ao editar item:', err)
+      throw err
+    }
   }
 
+  // Mesma lógica de "otimista com rollback" das outras ações: guarda a
+  // lista anterior para poder restaurar se a chamada ao backend falhar.
   async function clearBought() {
+    const previous = items
     setItems(prev => prev.filter(item => !item.bought))
-    await api.post('/api/items/clear-bought')
+    try {
+      await api.post('/api/items/clear-bought')
+    } catch (err) {
+      setItems(previous)
+      console.error('Falha ao limpar itens comprados:', err)
+      throw err
+    }
   }
 
   async function clearAll() {
+    const previous = items
     setItems([])
-    await api.post('/api/items/clear-all')
+    try {
+      await api.post('/api/items/clear-all')
+    } catch (err) {
+      setItems(previous)
+      console.error('Falha ao apagar a lista:', err)
+      throw err
+    }
   }
 
   return { items, addItem, removeItem, toggleItem, editItem, clearBought, clearAll }

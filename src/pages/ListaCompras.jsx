@@ -83,7 +83,12 @@ export function ListaCompras({
 
   const prevTotalBoughtRef = useRef(totalBought)
   useEffect(() => {
+    // Dispara uma notificação transitória (com timer de auto-fechamento)
+    // no exato momento em que o total comprado cruza o orçamento — é um
+    // efeito colateral real (não apenas estado derivado de props), por
+    // isso o setState direto aqui é intencional.
     if (budget > 0 && prevTotalBoughtRef.current <= budget && totalBought > budget) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setToastMsg(`⚠️ Passou do orçamento em ${formatCurrency(totalBought - budget)}`)
       const t = setTimeout(() => setToastMsg(null), 4000)
       return () => clearTimeout(t)

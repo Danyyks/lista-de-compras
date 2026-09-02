@@ -85,9 +85,11 @@ export default function App() {
   }
 
   // Regra de negócio: apagar a lista inteira também zera o orçamento.
+  // Os hooks já revertem o estado local sozinhos se a API falhar; aqui só
+  // evitamos que a falha vire uma rejeição de promise não tratada.
   function handleClearAll() {
-    clearAll()
-    setBudget(null)
+    clearAll().catch(() => {})
+    setBudget(null).catch(() => {})
   }
 
   function handleNavigateToLista() {
